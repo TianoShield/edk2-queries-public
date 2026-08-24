@@ -1,0 +1,386 @@
+edges
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:73:3:73:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | ../include/NetBuffer.c:86:12:86:46 | *... + ... | provenance |  |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | provenance |  |
+| test.c:61:14:61:18 | Value | test.c:64:10:64:14 | Value | provenance |  |
+| test.c:64:10:64:14 | Value | test.c:60:1:60:11 | *SwapBytes32 | provenance |  |
+| test.c:71:28:71:30 | *Pdu | test.c:79:3:79:66 | *... = ... | provenance | TaintFunction |
+| test.c:71:28:71:30 | *Pdu | test.c:79:54:79:56 | *Pdu | provenance |  |
+| test.c:71:28:71:30 | Pdu | test.c:79:3:79:66 | *... = ... | provenance | TaintFunction |
+| test.c:79:3:79:66 | *... = ... | test.c:84:3:84:8 | *R2THdr | provenance |  |
+| test.c:79:3:79:66 | *... = ... | test.c:84:3:84:66 | ... = ... | provenance | TaintFunction |
+| test.c:79:3:79:66 | *... = ... | test.c:84:54:84:65 | BufferOffset | provenance |  |
+| test.c:79:12:79:66 | *call to NetbufGetByte | test.c:79:3:79:66 | *... = ... | provenance |  |
+| test.c:79:54:79:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:79:54:79:56 | *Pdu | test.c:79:12:79:66 | *call to NetbufGetByte | provenance |  |
+| test.c:84:3:84:8 | *R2THdr | test.c:85:3:85:8 | *R2THdr | provenance |  |
+| test.c:84:3:84:8 | *R2THdr | test.c:85:3:85:79 | ... = ... | provenance | TaintFunction |
+| test.c:84:3:84:8 | *R2THdr | test.c:85:54:85:78 | DesiredDataTransferLength | provenance |  |
+| test.c:84:3:84:8 | *R2THdr [post update] [BufferOffset] | test.c:85:3:85:8 | *R2THdr [BufferOffset] | provenance |  |
+| test.c:84:3:84:66 | ... = ... | test.c:84:3:84:8 | *R2THdr [post update] [BufferOffset] | provenance |  |
+| test.c:84:39:84:66 | call to SwapBytes32 | test.c:84:3:84:66 | ... = ... | provenance |  |
+| test.c:84:54:84:65 | BufferOffset | test.c:61:14:61:18 | Value | provenance |  |
+| test.c:84:54:84:65 | BufferOffset | test.c:84:39:84:66 | call to SwapBytes32 | provenance |  |
+| test.c:85:3:85:8 | *R2THdr | test.c:88:3:88:51 | ... = ... | provenance |  |
+| test.c:85:3:85:8 | *R2THdr | test.c:89:3:89:64 | ... = ... | provenance |  |
+| test.c:85:3:85:8 | *R2THdr [BufferOffset] | test.c:88:32:88:37 | *R2THdr [BufferOffset] | provenance |  |
+| test.c:85:3:85:8 | *R2THdr [post update] [DesiredDataTransferLength] | test.c:89:32:89:37 | *R2THdr [DesiredDataTransferLength] | provenance |  |
+| test.c:85:3:85:79 | ... = ... | test.c:85:3:85:8 | *R2THdr [post update] [DesiredDataTransferLength] | provenance |  |
+| test.c:85:39:85:79 | call to SwapBytes32 | test.c:85:3:85:79 | ... = ... | provenance |  |
+| test.c:85:54:85:78 | DesiredDataTransferLength | test.c:61:14:61:18 | Value | provenance |  |
+| test.c:85:54:85:78 | DesiredDataTransferLength | test.c:85:39:85:79 | call to SwapBytes32 | provenance |  |
+| test.c:88:3:88:13 | *XferContext [post update] [Offset] | test.c:89:3:89:13 | *XferContext [Offset] | provenance |  |
+| test.c:88:3:88:51 | ... = ... | test.c:88:3:88:13 | *XferContext [post update] [Offset] | provenance |  |
+| test.c:88:32:88:37 | *R2THdr [BufferOffset] | test.c:88:40:88:51 | BufferOffset | provenance |  |
+| test.c:88:40:88:51 | BufferOffset | test.c:88:3:88:51 | ... = ... | provenance |  |
+| test.c:89:3:89:13 | *XferContext [Offset] | test.c:91:8:91:18 | *XferContext [Offset] | provenance |  |
+| test.c:89:3:89:13 | *XferContext [post update] [DesiredLength] | test.c:91:30:91:40 | *XferContext [DesiredLength] | provenance |  |
+| test.c:89:3:89:64 | ... = ... | test.c:89:3:89:13 | *XferContext [post update] [DesiredLength] | provenance |  |
+| test.c:89:32:89:37 | *R2THdr [DesiredDataTransferLength] | test.c:89:40:89:64 | DesiredDataTransferLength | provenance |  |
+| test.c:89:40:89:64 | DesiredDataTransferLength | test.c:89:3:89:64 | ... = ... | provenance |  |
+| test.c:91:8:91:18 | *XferContext [Offset] | test.c:91:21:91:26 | Offset | provenance |  |
+| test.c:91:30:91:40 | *XferContext [DesiredLength] | test.c:91:43:91:55 | DesiredLength | provenance |  |
+| test.c:144:33:144:35 | *Pdu | test.c:149:30:149:32 | *Pdu | provenance |  |
+| test.c:149:30:149:32 | *Pdu | test.c:71:28:71:30 | *Pdu | provenance |  |
+| test.c:180:35:180:38 | IScsiReceivePdu output argument | test.c:185:30:185:32 | *Pdu | provenance |  |
+| test.c:180:35:180:38 | IScsiReceivePdu output argument | test.c:185:30:185:32 | Pdu | provenance |  |
+| test.c:185:30:185:32 | *Pdu | test.c:71:28:71:30 | *Pdu | provenance |  |
+| test.c:185:30:185:32 | Pdu | test.c:71:28:71:30 | Pdu | provenance |  |
+| test.c:222:14:222:18 | Value | test.c:225:10:225:46 | ... \| ... | provenance |  |
+| test.c:225:10:225:46 | ... \| ... | test.c:221:1:221:11 | *SwapBytes16 | provenance |  |
+| test.c:232:15:232:20 | *Buffer | test.c:235:10:235:16 | * ... | provenance |  |
+| test.c:235:10:235:16 | * ... | test.c:231:1:231:15 | *ReadUnaligned16 | provenance |  |
+| test.c:254:35:254:38 | IScsiReceivePdu output argument | test.c:259:3:259:39 | *... = ... | provenance | TaintFunction |
+| test.c:254:35:254:38 | IScsiReceivePdu output argument | test.c:259:3:259:39 | *... = ... | provenance | TaintFunction |
+| test.c:254:35:254:38 | IScsiReceivePdu output argument | test.c:259:27:259:29 | *Pdu | provenance |  |
+| test.c:259:3:259:39 | *... = ... | test.c:264:49:264:70 | *... + ... | provenance |  |
+| test.c:259:12:259:24 | *call to NetbufGetByte | test.c:259:3:259:39 | *... = ... | provenance |  |
+| test.c:259:27:259:29 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:259:27:259:29 | *Pdu | test.c:259:12:259:24 | *call to NetbufGetByte | provenance |  |
+| test.c:264:32:264:46 | call to ReadUnaligned16 | test.c:222:14:222:18 | Value | provenance |  |
+| test.c:264:32:264:46 | call to ReadUnaligned16 | test.c:264:25:264:72 | call to SwapBytes16 | provenance |  |
+| test.c:264:32:264:46 | call to ReadUnaligned16 | test.c:264:25:264:72 | call to SwapBytes16 | provenance | TaintFunction |
+| test.c:264:49:264:70 | *... + ... | test.c:232:15:232:20 | *Buffer | provenance |  |
+| test.c:264:49:264:70 | *... + ... | test.c:264:32:264:46 | call to ReadUnaligned16 | provenance |  |
+| test.c:279:35:279:38 | IScsiReceivePdu output argument | test.c:284:3:284:39 | *... = ... | provenance | TaintFunction |
+| test.c:279:35:279:38 | IScsiReceivePdu output argument | test.c:284:3:284:39 | *... = ... | provenance | TaintFunction |
+| test.c:279:35:279:38 | IScsiReceivePdu output argument | test.c:284:27:284:29 | *Pdu | provenance |  |
+| test.c:284:3:284:39 | *... = ... | test.c:289:42:289:63 | *... + ... | provenance |  |
+| test.c:284:12:284:24 | *call to NetbufGetByte | test.c:284:3:284:39 | *... = ... | provenance |  |
+| test.c:284:27:284:29 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:284:27:284:29 | *Pdu | test.c:284:12:284:24 | *call to NetbufGetByte | provenance |  |
+| test.c:289:25:289:39 | call to ReadUnaligned16 | test.c:222:14:222:18 | Value | provenance |  |
+| test.c:289:25:289:39 | call to ReadUnaligned16 | test.c:289:18:289:65 | call to SwapBytes16 | provenance |  |
+| test.c:289:25:289:39 | call to ReadUnaligned16 | test.c:289:18:289:65 | call to SwapBytes16 | provenance | TaintFunction |
+| test.c:289:42:289:63 | *... + ... | test.c:232:15:232:20 | *Buffer | provenance |  |
+| test.c:289:42:289:63 | *... + ... | test.c:289:25:289:39 | call to ReadUnaligned16 | provenance |  |
+| test.c:376:15:376:23 | HobLength | test.c:385:3:385:50 | ... = ... | provenance |  |
+| test.c:376:15:376:23 | HobLength | test.c:385:25:385:33 | HobLength | provenance |  |
+| test.c:385:3:385:50 | ... = ... | test.c:393:63:393:71 | HobLength | provenance |  |
+| test.c:492:19:492:59 | **ImageAddress | test.c:492:34:492:45 | *ImageContext [post update] | provenance | Config |
+| test.c:492:19:492:59 | *ImageAddress | test.c:492:34:492:45 | *ImageContext [post update] | provenance | Config |
+| test.c:492:34:492:45 | *ImageContext [post update] | test.c:495:57:495:68 | *ImageContext | provenance |  |
+| test.c:495:57:495:68 | *ImageContext | test.c:496:15:496:17 | *Hdr | provenance | Config |
+| test.c:496:3:496:50 | *... = ... | test.c:501:23:501:36 | VirtualAddress | provenance |  |
+| test.c:496:3:496:50 | *... = ... | test.c:501:50:501:53 | Size | provenance |  |
+| test.c:496:15:496:17 | *Hdr | test.c:496:3:496:50 | *... = ... | provenance |  |
+| test.c:675:34:675:37 | *File | test.c:685:3:685:49 | ... = ... | provenance | TaintFunction |
+| test.c:685:3:685:49 | ... = ... | test.c:686:73:686:84 | FilePathSize | provenance |  |
+| test.c:702:34:702:37 | *File | test.c:713:3:713:49 | *... = ... | provenance | TaintFunction |
+| test.c:713:3:713:49 | *... = ... | test.c:714:3:714:69 | ... = ... | provenance | TaintFunction |
+| test.c:714:3:714:69 | ... = ... | test.c:715:79:715:90 | FilePathSize | provenance |  |
+| test.c:731:34:731:37 | *File | test.c:740:3:740:49 | ... = ... | provenance | TaintFunction |
+| test.c:740:3:740:49 | ... = ... | test.c:741:73:741:84 | FilePathSize | provenance |  |
+| test.c:925:66:925:87 | *PrimaryHeader | test.c:927:43:927:66 | NumberOfPartitionEntries | provenance |  |
+| test.c:925:66:925:87 | *PrimaryHeader | test.c:927:85:927:104 | SizeOfPartitionEntry | provenance |  |
+| test.c:952:66:952:87 | *PrimaryHeader | test.c:955:32:955:55 | NumberOfPartitionEntries | provenance |  |
+| test.c:952:66:952:87 | *PrimaryHeader | test.c:955:74:955:93 | SizeOfPartitionEntry | provenance |  |
+| test.c:978:70:978:91 | *PrimaryHeader | test.c:980:43:980:66 | NumberOfPartitionEntries | provenance |  |
+| test.c:978:70:978:91 | *PrimaryHeader | test.c:980:85:980:104 | SizeOfPartitionEntry | provenance |  |
+| test.c:1099:66:1099:87 | *PrimaryHeader | test.c:1101:39:1101:55 | PartitionEntryLBA | provenance |  |
+| test.c:1123:66:1123:87 | *PrimaryHeader | test.c:1125:38:1125:54 | PartitionEntryLBA | provenance |  |
+| test.c:1123:66:1123:87 | *PrimaryHeader | test.c:1125:72:1125:95 | NumberOfPartitionEntries | provenance |  |
+| test.c:1247:66:1247:87 | *PrimaryHeader | test.c:1253:43:1253:66 | NumberOfPartitionEntries | provenance |  |
+| test.c:1247:66:1247:87 | *PrimaryHeader | test.c:1253:85:1253:104 | SizeOfPartitionEntry | provenance |  |
+| test.c:1291:19:1291:24 | *Packet | test.c:1300:3:1300:42 | *... = ... | provenance | TaintFunction |
+| test.c:1291:19:1291:24 | *Packet | test.c:1300:27:1300:32 | *Packet | provenance |  |
+| test.c:1300:3:1300:42 | *... = ... | test.c:1305:24:1305:30 | * ... | provenance |  |
+| test.c:1300:3:1300:42 | *... = ... | test.c:1305:24:1305:34 | ... + ... | provenance |  |
+| test.c:1300:12:1300:24 | *call to NetbufGetByte | test.c:1300:3:1300:42 | *... = ... | provenance |  |
+| test.c:1300:27:1300:32 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1300:27:1300:32 | *Packet | test.c:1300:12:1300:24 | *call to NetbufGetByte | provenance |  |
+| test.c:1335:19:1335:24 | *Packet | test.c:1344:3:1344:42 | *... = ... | provenance | TaintFunction |
+| test.c:1335:19:1335:24 | *Packet | test.c:1344:27:1344:32 | *Packet | provenance |  |
+| test.c:1344:3:1344:42 | *... = ... | test.c:1351:31:1351:52 | * ... | provenance |  |
+| test.c:1344:12:1344:24 | *call to NetbufGetByte | test.c:1344:3:1344:42 | *... = ... | provenance |  |
+| test.c:1344:27:1344:32 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1344:27:1344:32 | *Packet | test.c:1344:12:1344:24 | *call to NetbufGetByte | provenance |  |
+| test.c:1467:35:1467:38 | IScsiReceivePdu output argument | test.c:1472:3:1472:66 | *... = ... | provenance | TaintFunction |
+| test.c:1467:35:1467:38 | IScsiReceivePdu output argument | test.c:1472:3:1472:66 | *... = ... | provenance | TaintFunction |
+| test.c:1467:35:1467:38 | IScsiReceivePdu output argument | test.c:1472:54:1472:56 | *Pdu | provenance |  |
+| test.c:1472:3:1472:66 | *... = ... | test.c:1477:3:1477:41 | ... = ... | provenance |  |
+| test.c:1472:12:1472:66 | *call to NetbufGetByte | test.c:1472:3:1472:66 | *... = ... | provenance |  |
+| test.c:1472:54:1472:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1472:54:1472:56 | *Pdu | test.c:1472:12:1472:66 | *call to NetbufGetByte | provenance |  |
+| test.c:1477:3:1477:41 | ... = ... | test.c:1478:3:1478:5 | Len | provenance |  |
+| test.c:1522:35:1522:38 | IScsiReceivePdu output argument | test.c:1527:3:1527:66 | *... = ... | provenance | TaintFunction |
+| test.c:1522:35:1522:38 | IScsiReceivePdu output argument | test.c:1527:3:1527:66 | *... = ... | provenance | TaintFunction |
+| test.c:1522:35:1522:38 | IScsiReceivePdu output argument | test.c:1527:54:1527:56 | *Pdu | provenance |  |
+| test.c:1527:3:1527:66 | *... = ... | test.c:1532:3:1532:43 | ... = ... | provenance |  |
+| test.c:1527:12:1527:66 | *call to NetbufGetByte | test.c:1527:3:1527:66 | *... = ... | provenance |  |
+| test.c:1527:54:1527:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1527:54:1527:56 | *Pdu | test.c:1527:12:1527:66 | *call to NetbufGetByte | provenance |  |
+| test.c:1532:3:1532:43 | ... = ... | test.c:1533:3:1533:5 | Len | provenance |  |
+| test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1583:3:1583:66 | *... = ... | provenance | TaintFunction |
+| test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1583:3:1583:66 | *... = ... | provenance | TaintFunction |
+| test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1583:54:1583:56 | *Pdu | provenance |  |
+| test.c:1583:3:1583:66 | *... = ... | test.c:1588:3:1588:44 | ... = ... | provenance |  |
+| test.c:1583:3:1583:66 | *... = ... | test.c:1589:3:1589:31 | ... = ... | provenance |  |
+| test.c:1583:12:1583:66 | *call to NetbufGetByte | test.c:1583:3:1583:66 | *... = ... | provenance |  |
+| test.c:1583:54:1583:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1583:54:1583:56 | *Pdu | test.c:1583:12:1583:66 | *call to NetbufGetByte | provenance |  |
+| test.c:1588:3:1588:44 | ... = ... | test.c:1590:3:1590:5 | Len | provenance |  |
+| test.c:1589:3:1589:31 | ... = ... | test.c:1590:12:1590:17 | Amount | provenance |  |
+| test.c:1637:35:1637:38 | IScsiReceivePdu output argument | test.c:1642:3:1642:66 | *... = ... | provenance | TaintFunction |
+| test.c:1637:35:1637:38 | IScsiReceivePdu output argument | test.c:1642:3:1642:66 | *... = ... | provenance | TaintFunction |
+| test.c:1637:35:1637:38 | IScsiReceivePdu output argument | test.c:1642:54:1642:56 | *Pdu | provenance |  |
+| test.c:1642:3:1642:66 | *... = ... | test.c:1647:3:1647:41 | ... = ... | provenance |  |
+| test.c:1642:12:1642:66 | *call to NetbufGetByte | test.c:1642:3:1642:66 | *... = ... | provenance |  |
+| test.c:1642:54:1642:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1642:54:1642:56 | *Pdu | test.c:1642:12:1642:66 | *call to NetbufGetByte | provenance |  |
+| test.c:1647:3:1647:41 | ... = ... | test.c:1648:25:1648:27 | Len | provenance |  |
+| test.c:1718:14:1718:16 | Len | test.c:1723:7:1723:11 | ... -- | provenance |  |
+| test.c:1718:14:1718:16 | Len | test.c:1730:7:1730:9 | Len | provenance |  |
+| test.c:1718:14:1718:16 | Len | test.c:1730:7:1730:11 | ... -- | provenance |  |
+| test.c:1723:7:1723:11 | ... -- | test.c:1730:7:1730:9 | Len | provenance |  |
+| test.c:1723:7:1723:11 | ... -- | test.c:1730:7:1730:11 | ... -- | provenance |  |
+| test.c:1730:7:1730:11 | ... -- | test.c:1723:7:1723:11 | ... -- | provenance |  |
+| test.c:1730:7:1730:11 | ... -- | test.c:1730:7:1730:9 | Len | provenance |  |
+| test.c:1779:35:1779:38 | IScsiReceivePdu output argument | test.c:1784:3:1784:65 | *... = ... | provenance | TaintFunction |
+| test.c:1779:35:1779:38 | IScsiReceivePdu output argument | test.c:1784:3:1784:65 | *... = ... | provenance | TaintFunction |
+| test.c:1779:35:1779:38 | IScsiReceivePdu output argument | test.c:1784:53:1784:55 | *Pdu | provenance |  |
+| test.c:1784:3:1784:65 | *... = ... | test.c:1789:3:1789:47 | ... = ... | provenance |  |
+| test.c:1784:14:1784:65 | *call to NetbufGetByte | test.c:1784:3:1784:65 | *... = ... | provenance |  |
+| test.c:1784:53:1784:55 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:1784:53:1784:55 | *Pdu | test.c:1784:14:1784:65 | *call to NetbufGetByte | provenance |  |
+| test.c:1789:3:1789:47 | ... = ... | test.c:1795:49:1795:58 | DataSegLen | provenance |  |
+| test.c:1795:49:1795:58 | DataSegLen | test.c:1718:14:1718:16 | Len | provenance |  |
+nodes
+| ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | semmle.label | **NetbufGetByte |
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | semmle.label | *... + ... |
+| test.c:60:1:60:11 | *SwapBytes32 | semmle.label | *SwapBytes32 |
+| test.c:61:14:61:18 | Value | semmle.label | Value |
+| test.c:64:10:64:14 | Value | semmle.label | Value |
+| test.c:71:28:71:30 | *Pdu | semmle.label | *Pdu |
+| test.c:71:28:71:30 | Pdu | semmle.label | Pdu |
+| test.c:79:3:79:66 | *... = ... | semmle.label | *... = ... |
+| test.c:79:12:79:66 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:79:54:79:56 | *Pdu | semmle.label | *Pdu |
+| test.c:84:3:84:8 | *R2THdr | semmle.label | *R2THdr |
+| test.c:84:3:84:8 | *R2THdr [post update] [BufferOffset] | semmle.label | *R2THdr [post update] [BufferOffset] |
+| test.c:84:3:84:66 | ... = ... | semmle.label | ... = ... |
+| test.c:84:39:84:66 | call to SwapBytes32 | semmle.label | call to SwapBytes32 |
+| test.c:84:54:84:65 | BufferOffset | semmle.label | BufferOffset |
+| test.c:85:3:85:8 | *R2THdr | semmle.label | *R2THdr |
+| test.c:85:3:85:8 | *R2THdr [BufferOffset] | semmle.label | *R2THdr [BufferOffset] |
+| test.c:85:3:85:8 | *R2THdr [post update] [DesiredDataTransferLength] | semmle.label | *R2THdr [post update] [DesiredDataTransferLength] |
+| test.c:85:3:85:79 | ... = ... | semmle.label | ... = ... |
+| test.c:85:39:85:79 | call to SwapBytes32 | semmle.label | call to SwapBytes32 |
+| test.c:85:54:85:78 | DesiredDataTransferLength | semmle.label | DesiredDataTransferLength |
+| test.c:88:3:88:13 | *XferContext [post update] [Offset] | semmle.label | *XferContext [post update] [Offset] |
+| test.c:88:3:88:51 | ... = ... | semmle.label | ... = ... |
+| test.c:88:32:88:37 | *R2THdr [BufferOffset] | semmle.label | *R2THdr [BufferOffset] |
+| test.c:88:40:88:51 | BufferOffset | semmle.label | BufferOffset |
+| test.c:89:3:89:13 | *XferContext [Offset] | semmle.label | *XferContext [Offset] |
+| test.c:89:3:89:13 | *XferContext [post update] [DesiredLength] | semmle.label | *XferContext [post update] [DesiredLength] |
+| test.c:89:3:89:64 | ... = ... | semmle.label | ... = ... |
+| test.c:89:32:89:37 | *R2THdr [DesiredDataTransferLength] | semmle.label | *R2THdr [DesiredDataTransferLength] |
+| test.c:89:40:89:64 | DesiredDataTransferLength | semmle.label | DesiredDataTransferLength |
+| test.c:91:8:91:18 | *XferContext [Offset] | semmle.label | *XferContext [Offset] |
+| test.c:91:21:91:26 | Offset | semmle.label | Offset |
+| test.c:91:30:91:40 | *XferContext [DesiredLength] | semmle.label | *XferContext [DesiredLength] |
+| test.c:91:43:91:55 | DesiredLength | semmle.label | DesiredLength |
+| test.c:144:33:144:35 | *Pdu | semmle.label | *Pdu |
+| test.c:149:30:149:32 | *Pdu | semmle.label | *Pdu |
+| test.c:180:35:180:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:180:35:180:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:185:30:185:32 | *Pdu | semmle.label | *Pdu |
+| test.c:185:30:185:32 | Pdu | semmle.label | Pdu |
+| test.c:221:1:221:11 | *SwapBytes16 | semmle.label | *SwapBytes16 |
+| test.c:222:14:222:18 | Value | semmle.label | Value |
+| test.c:225:10:225:46 | ... \| ... | semmle.label | ... \| ... |
+| test.c:231:1:231:15 | *ReadUnaligned16 | semmle.label | *ReadUnaligned16 |
+| test.c:232:15:232:20 | *Buffer | semmle.label | *Buffer |
+| test.c:235:10:235:16 | * ... | semmle.label | * ... |
+| test.c:254:35:254:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:254:35:254:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:259:3:259:39 | *... = ... | semmle.label | *... = ... |
+| test.c:259:12:259:24 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:259:27:259:29 | *Pdu | semmle.label | *Pdu |
+| test.c:264:25:264:72 | call to SwapBytes16 | semmle.label | call to SwapBytes16 |
+| test.c:264:32:264:46 | call to ReadUnaligned16 | semmle.label | call to ReadUnaligned16 |
+| test.c:264:49:264:70 | *... + ... | semmle.label | *... + ... |
+| test.c:279:35:279:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:279:35:279:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:284:3:284:39 | *... = ... | semmle.label | *... = ... |
+| test.c:284:12:284:24 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:284:27:284:29 | *Pdu | semmle.label | *Pdu |
+| test.c:289:18:289:65 | call to SwapBytes16 | semmle.label | call to SwapBytes16 |
+| test.c:289:25:289:39 | call to ReadUnaligned16 | semmle.label | call to ReadUnaligned16 |
+| test.c:289:42:289:63 | *... + ... | semmle.label | *... + ... |
+| test.c:376:15:376:23 | HobLength | semmle.label | HobLength |
+| test.c:385:3:385:50 | ... = ... | semmle.label | ... = ... |
+| test.c:385:25:385:33 | HobLength | semmle.label | HobLength |
+| test.c:393:63:393:71 | HobLength | semmle.label | HobLength |
+| test.c:492:19:492:59 | **ImageAddress | semmle.label | **ImageAddress |
+| test.c:492:19:492:59 | *ImageAddress | semmle.label | *ImageAddress |
+| test.c:492:34:492:45 | *ImageContext [post update] | semmle.label | *ImageContext [post update] |
+| test.c:495:57:495:68 | *ImageContext | semmle.label | *ImageContext |
+| test.c:496:3:496:50 | *... = ... | semmle.label | *... = ... |
+| test.c:496:15:496:17 | *Hdr | semmle.label | *Hdr |
+| test.c:501:23:501:36 | VirtualAddress | semmle.label | VirtualAddress |
+| test.c:501:50:501:53 | Size | semmle.label | Size |
+| test.c:675:34:675:37 | *File | semmle.label | *File |
+| test.c:685:3:685:49 | ... = ... | semmle.label | ... = ... |
+| test.c:686:73:686:84 | FilePathSize | semmle.label | FilePathSize |
+| test.c:702:34:702:37 | *File | semmle.label | *File |
+| test.c:713:3:713:49 | *... = ... | semmle.label | *... = ... |
+| test.c:714:3:714:69 | ... = ... | semmle.label | ... = ... |
+| test.c:715:79:715:90 | FilePathSize | semmle.label | FilePathSize |
+| test.c:731:34:731:37 | *File | semmle.label | *File |
+| test.c:740:3:740:49 | ... = ... | semmle.label | ... = ... |
+| test.c:741:73:741:84 | FilePathSize | semmle.label | FilePathSize |
+| test.c:925:66:925:87 | *PrimaryHeader | semmle.label | *PrimaryHeader |
+| test.c:927:43:927:66 | NumberOfPartitionEntries | semmle.label | NumberOfPartitionEntries |
+| test.c:927:85:927:104 | SizeOfPartitionEntry | semmle.label | SizeOfPartitionEntry |
+| test.c:952:66:952:87 | *PrimaryHeader | semmle.label | *PrimaryHeader |
+| test.c:955:32:955:55 | NumberOfPartitionEntries | semmle.label | NumberOfPartitionEntries |
+| test.c:955:74:955:93 | SizeOfPartitionEntry | semmle.label | SizeOfPartitionEntry |
+| test.c:978:70:978:91 | *PrimaryHeader | semmle.label | *PrimaryHeader |
+| test.c:980:43:980:66 | NumberOfPartitionEntries | semmle.label | NumberOfPartitionEntries |
+| test.c:980:85:980:104 | SizeOfPartitionEntry | semmle.label | SizeOfPartitionEntry |
+| test.c:1099:66:1099:87 | *PrimaryHeader | semmle.label | *PrimaryHeader |
+| test.c:1101:39:1101:55 | PartitionEntryLBA | semmle.label | PartitionEntryLBA |
+| test.c:1123:66:1123:87 | *PrimaryHeader | semmle.label | *PrimaryHeader |
+| test.c:1125:38:1125:54 | PartitionEntryLBA | semmle.label | PartitionEntryLBA |
+| test.c:1125:72:1125:95 | NumberOfPartitionEntries | semmle.label | NumberOfPartitionEntries |
+| test.c:1247:66:1247:87 | *PrimaryHeader | semmle.label | *PrimaryHeader |
+| test.c:1253:43:1253:66 | NumberOfPartitionEntries | semmle.label | NumberOfPartitionEntries |
+| test.c:1253:85:1253:104 | SizeOfPartitionEntry | semmle.label | SizeOfPartitionEntry |
+| test.c:1291:19:1291:24 | *Packet | semmle.label | *Packet |
+| test.c:1300:3:1300:42 | *... = ... | semmle.label | *... = ... |
+| test.c:1300:12:1300:24 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1300:27:1300:32 | *Packet | semmle.label | *Packet |
+| test.c:1305:24:1305:30 | * ... | semmle.label | * ... |
+| test.c:1305:24:1305:34 | ... + ... | semmle.label | ... + ... |
+| test.c:1335:19:1335:24 | *Packet | semmle.label | *Packet |
+| test.c:1344:3:1344:42 | *... = ... | semmle.label | *... = ... |
+| test.c:1344:12:1344:24 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1344:27:1344:32 | *Packet | semmle.label | *Packet |
+| test.c:1351:31:1351:52 | * ... | semmle.label | * ... |
+| test.c:1467:35:1467:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1467:35:1467:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1472:3:1472:66 | *... = ... | semmle.label | *... = ... |
+| test.c:1472:12:1472:66 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1472:54:1472:56 | *Pdu | semmle.label | *Pdu |
+| test.c:1477:3:1477:41 | ... = ... | semmle.label | ... = ... |
+| test.c:1478:3:1478:5 | Len | semmle.label | Len |
+| test.c:1522:35:1522:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1522:35:1522:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1527:3:1527:66 | *... = ... | semmle.label | *... = ... |
+| test.c:1527:12:1527:66 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1527:54:1527:56 | *Pdu | semmle.label | *Pdu |
+| test.c:1532:3:1532:43 | ... = ... | semmle.label | ... = ... |
+| test.c:1533:3:1533:5 | Len | semmle.label | Len |
+| test.c:1578:35:1578:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1578:35:1578:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1583:3:1583:66 | *... = ... | semmle.label | *... = ... |
+| test.c:1583:12:1583:66 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1583:54:1583:56 | *Pdu | semmle.label | *Pdu |
+| test.c:1588:3:1588:44 | ... = ... | semmle.label | ... = ... |
+| test.c:1589:3:1589:31 | ... = ... | semmle.label | ... = ... |
+| test.c:1590:3:1590:5 | Len | semmle.label | Len |
+| test.c:1590:12:1590:17 | Amount | semmle.label | Amount |
+| test.c:1637:35:1637:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1637:35:1637:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1642:3:1642:66 | *... = ... | semmle.label | *... = ... |
+| test.c:1642:12:1642:66 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1642:54:1642:56 | *Pdu | semmle.label | *Pdu |
+| test.c:1647:3:1647:41 | ... = ... | semmle.label | ... = ... |
+| test.c:1648:25:1648:27 | Len | semmle.label | Len |
+| test.c:1718:14:1718:16 | Len | semmle.label | Len |
+| test.c:1723:7:1723:11 | ... -- | semmle.label | ... -- |
+| test.c:1730:7:1730:9 | Len | semmle.label | Len |
+| test.c:1730:7:1730:11 | ... -- | semmle.label | ... -- |
+| test.c:1779:35:1779:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1779:35:1779:38 | IScsiReceivePdu output argument | semmle.label | IScsiReceivePdu output argument |
+| test.c:1784:3:1784:65 | *... = ... | semmle.label | *... = ... |
+| test.c:1784:14:1784:65 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:1784:53:1784:55 | *Pdu | semmle.label | *Pdu |
+| test.c:1789:3:1789:47 | ... = ... | semmle.label | ... = ... |
+| test.c:1795:49:1795:58 | DataSegLen | semmle.label | DataSegLen |
+subpaths
+| test.c:79:54:79:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:79:12:79:66 | *call to NetbufGetByte |
+| test.c:84:54:84:65 | BufferOffset | test.c:61:14:61:18 | Value | test.c:60:1:60:11 | *SwapBytes32 | test.c:84:39:84:66 | call to SwapBytes32 |
+| test.c:85:54:85:78 | DesiredDataTransferLength | test.c:61:14:61:18 | Value | test.c:60:1:60:11 | *SwapBytes32 | test.c:85:39:85:79 | call to SwapBytes32 |
+| test.c:259:27:259:29 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:259:12:259:24 | *call to NetbufGetByte |
+| test.c:264:32:264:46 | call to ReadUnaligned16 | test.c:222:14:222:18 | Value | test.c:221:1:221:11 | *SwapBytes16 | test.c:264:25:264:72 | call to SwapBytes16 |
+| test.c:264:49:264:70 | *... + ... | test.c:232:15:232:20 | *Buffer | test.c:231:1:231:15 | *ReadUnaligned16 | test.c:264:32:264:46 | call to ReadUnaligned16 |
+| test.c:284:27:284:29 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:284:12:284:24 | *call to NetbufGetByte |
+| test.c:289:25:289:39 | call to ReadUnaligned16 | test.c:222:14:222:18 | Value | test.c:221:1:221:11 | *SwapBytes16 | test.c:289:18:289:65 | call to SwapBytes16 |
+| test.c:289:42:289:63 | *... + ... | test.c:232:15:232:20 | *Buffer | test.c:231:1:231:15 | *ReadUnaligned16 | test.c:289:25:289:39 | call to ReadUnaligned16 |
+| test.c:1300:27:1300:32 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1300:12:1300:24 | *call to NetbufGetByte |
+| test.c:1344:27:1344:32 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1344:12:1344:24 | *call to NetbufGetByte |
+| test.c:1472:54:1472:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1472:12:1472:66 | *call to NetbufGetByte |
+| test.c:1527:54:1527:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1527:12:1527:66 | *call to NetbufGetByte |
+| test.c:1583:54:1583:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1583:12:1583:66 | *call to NetbufGetByte |
+| test.c:1642:54:1642:56 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1642:12:1642:66 | *call to NetbufGetByte |
+| test.c:1784:53:1784:55 | *Pdu | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:1784:14:1784:65 | *call to NetbufGetByte |
+#select
+| test.c:91:21:91:26 | Offset | test.c:144:33:144:35 | *Pdu | test.c:91:21:91:26 | Offset | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:144:33:144:35 | *Pdu | data received by TcpIoReceive |
+| test.c:91:21:91:26 | Offset | test.c:180:35:180:38 | IScsiReceivePdu output argument | test.c:91:21:91:26 | Offset | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:180:35:180:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:91:21:91:26 | Offset | test.c:180:35:180:38 | IScsiReceivePdu output argument | test.c:91:21:91:26 | Offset | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:180:35:180:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:91:43:91:55 | DesiredLength | test.c:144:33:144:35 | *Pdu | test.c:91:43:91:55 | DesiredLength | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:144:33:144:35 | *Pdu | data received by TcpIoReceive |
+| test.c:91:43:91:55 | DesiredLength | test.c:180:35:180:38 | IScsiReceivePdu output argument | test.c:91:43:91:55 | DesiredLength | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:180:35:180:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:91:43:91:55 | DesiredLength | test.c:180:35:180:38 | IScsiReceivePdu output argument | test.c:91:43:91:55 | DesiredLength | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:180:35:180:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:264:25:264:72 | call to SwapBytes16 | test.c:254:35:254:38 | IScsiReceivePdu output argument | test.c:264:25:264:72 | call to SwapBytes16 | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:254:35:254:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:264:25:264:72 | call to SwapBytes16 | test.c:254:35:254:38 | IScsiReceivePdu output argument | test.c:264:25:264:72 | call to SwapBytes16 | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:254:35:254:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:289:18:289:65 | call to SwapBytes16 | test.c:279:35:279:38 | IScsiReceivePdu output argument | test.c:289:18:289:65 | call to SwapBytes16 | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:279:35:279:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:289:18:289:65 | call to SwapBytes16 | test.c:279:35:279:38 | IScsiReceivePdu output argument | test.c:289:18:289:65 | call to SwapBytes16 | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:279:35:279:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:385:25:385:33 | HobLength | test.c:376:15:376:23 | HobLength | test.c:385:25:385:33 | HobLength | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:376:15:376:23 | HobLength | parameter of CreateHob |
+| test.c:393:63:393:71 | HobLength | test.c:376:15:376:23 | HobLength | test.c:393:63:393:71 | HobLength | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:376:15:376:23 | HobLength | parameter of CreateHob |
+| test.c:501:23:501:36 | VirtualAddress | test.c:492:19:492:59 | **ImageAddress | test.c:501:23:501:36 | VirtualAddress | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:492:19:492:59 | **ImageAddress | data read from PE/COFF image via PE_COFF_LOADER_READ_FILE callback |
+| test.c:501:23:501:36 | VirtualAddress | test.c:492:19:492:59 | *ImageAddress | test.c:501:23:501:36 | VirtualAddress | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:492:19:492:59 | *ImageAddress | data read from PE/COFF image via PE_COFF_LOADER_READ_FILE callback |
+| test.c:501:50:501:53 | Size | test.c:492:19:492:59 | **ImageAddress | test.c:501:50:501:53 | Size | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:492:19:492:59 | **ImageAddress | data read from PE/COFF image via PE_COFF_LOADER_READ_FILE callback |
+| test.c:501:50:501:53 | Size | test.c:492:19:492:59 | *ImageAddress | test.c:501:50:501:53 | Size | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:492:19:492:59 | *ImageAddress | data read from PE/COFF image via PE_COFF_LOADER_READ_FILE callback |
+| test.c:686:73:686:84 | FilePathSize | test.c:675:34:675:37 | *File | test.c:686:73:686:84 | FilePathSize | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:675:34:675:37 | *File | device path passed to a security file-authentication handler |
+| test.c:715:79:715:90 | FilePathSize | test.c:702:34:702:37 | *File | test.c:715:79:715:90 | FilePathSize | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:702:34:702:37 | *File | device path passed to a security file-authentication handler |
+| test.c:741:73:741:84 | FilePathSize | test.c:731:34:731:37 | *File | test.c:741:73:741:84 | FilePathSize | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:731:34:731:37 | *File | device path passed to a security file-authentication handler |
+| test.c:927:43:927:66 | NumberOfPartitionEntries | test.c:925:66:925:87 | *PrimaryHeader | test.c:927:43:927:66 | NumberOfPartitionEntries | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:925:66:925:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:927:85:927:104 | SizeOfPartitionEntry | test.c:925:66:925:87 | *PrimaryHeader | test.c:927:85:927:104 | SizeOfPartitionEntry | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:925:66:925:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:955:32:955:55 | NumberOfPartitionEntries | test.c:952:66:952:87 | *PrimaryHeader | test.c:955:32:955:55 | NumberOfPartitionEntries | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:952:66:952:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:955:74:955:93 | SizeOfPartitionEntry | test.c:952:66:952:87 | *PrimaryHeader | test.c:955:74:955:93 | SizeOfPartitionEntry | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:952:66:952:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:980:43:980:66 | NumberOfPartitionEntries | test.c:978:70:978:91 | *PrimaryHeader | test.c:980:43:980:66 | NumberOfPartitionEntries | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:978:70:978:91 | *PrimaryHeader | data read from a block I/O device |
+| test.c:980:85:980:104 | SizeOfPartitionEntry | test.c:978:70:978:91 | *PrimaryHeader | test.c:980:85:980:104 | SizeOfPartitionEntry | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:978:70:978:91 | *PrimaryHeader | data read from a block I/O device |
+| test.c:1101:39:1101:55 | PartitionEntryLBA | test.c:1099:66:1099:87 | *PrimaryHeader | test.c:1101:39:1101:55 | PartitionEntryLBA | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1099:66:1099:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:1125:38:1125:54 | PartitionEntryLBA | test.c:1123:66:1123:87 | *PrimaryHeader | test.c:1125:38:1125:54 | PartitionEntryLBA | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1123:66:1123:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:1125:72:1125:95 | NumberOfPartitionEntries | test.c:1123:66:1123:87 | *PrimaryHeader | test.c:1125:72:1125:95 | NumberOfPartitionEntries | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1123:66:1123:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:1253:43:1253:66 | NumberOfPartitionEntries | test.c:1247:66:1247:87 | *PrimaryHeader | test.c:1253:43:1253:66 | NumberOfPartitionEntries | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1247:66:1247:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:1253:85:1253:104 | SizeOfPartitionEntry | test.c:1247:66:1247:87 | *PrimaryHeader | test.c:1253:85:1253:104 | SizeOfPartitionEntry | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1247:66:1247:87 | *PrimaryHeader | data read from a disk I/O device |
+| test.c:1305:24:1305:30 | * ... | test.c:1291:19:1291:24 | *Packet | test.c:1305:24:1305:30 | * ... | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1291:19:1291:24 | *Packet | packet delivered to an IP6 frame-receive callback |
+| test.c:1305:24:1305:34 | ... + ... | test.c:1291:19:1291:24 | *Packet | test.c:1305:24:1305:34 | ... + ... | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1291:19:1291:24 | *Packet | packet delivered to an IP6 frame-receive callback |
+| test.c:1351:31:1351:52 | * ... | test.c:1335:19:1335:24 | *Packet | test.c:1351:31:1351:52 | * ... | $@ flows to an operand of an arithmetic expression, potentially causing an overflow. | test.c:1335:19:1335:24 | *Packet | packet delivered to an IP6 frame-receive callback |
+| test.c:1478:3:1478:5 | Len | test.c:1467:35:1467:38 | IScsiReceivePdu output argument | test.c:1478:3:1478:5 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1467:35:1467:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1478:3:1478:5 | Len | test.c:1467:35:1467:38 | IScsiReceivePdu output argument | test.c:1478:3:1478:5 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1467:35:1467:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1533:3:1533:5 | Len | test.c:1522:35:1522:38 | IScsiReceivePdu output argument | test.c:1533:3:1533:5 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1522:35:1522:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1533:3:1533:5 | Len | test.c:1522:35:1522:38 | IScsiReceivePdu output argument | test.c:1533:3:1533:5 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1522:35:1522:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1590:3:1590:5 | Len | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1590:3:1590:5 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1590:3:1590:5 | Len | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1590:3:1590:5 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1590:12:1590:17 | Amount | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1590:12:1590:17 | Amount | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1590:12:1590:17 | Amount | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | test.c:1590:12:1590:17 | Amount | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1578:35:1578:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1648:25:1648:27 | Len | test.c:1637:35:1637:38 | IScsiReceivePdu output argument | test.c:1648:25:1648:27 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1637:35:1637:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1648:25:1648:27 | Len | test.c:1637:35:1637:38 | IScsiReceivePdu output argument | test.c:1648:25:1648:27 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1637:35:1637:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1730:7:1730:9 | Len | test.c:1779:35:1779:38 | IScsiReceivePdu output argument | test.c:1730:7:1730:9 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1779:35:1779:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |
+| test.c:1730:7:1730:9 | Len | test.c:1779:35:1779:38 | IScsiReceivePdu output argument | test.c:1730:7:1730:9 | Len | $@ flows to an operand of an arithmetic expression, potentially causing an underflow. | test.c:1779:35:1779:38 | IScsiReceivePdu output argument | data received by IScsiReceivePdu |

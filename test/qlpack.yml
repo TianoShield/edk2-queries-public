@@ -1,0 +1,6 @@
+name: tianoshield/edk2-queries-tests
+version: 0.0.1
+extractor: cpp
+dependencies:
+  tianoshield/edk2-queries: "*"
+  codeql/cpp-all: "*"

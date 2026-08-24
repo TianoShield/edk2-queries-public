@@ -1,0 +1,160 @@
+edges
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:73:3:73:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | ../include/NetBuffer.c:86:12:86:46 | *... + ... | provenance |  |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | provenance |  |
+| ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:118:3:118:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:143:3:143:16 | *... += ... | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:155:7:155:33 | *... += ... | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:143:3:143:16 | *... += ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance |  |
+| ../include/NetBuffer.c:155:7:155:33 | *... += ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance |  |
+| test.c:119:21:119:26 | *Packet | test.c:129:5:129:62 | *... = ... | provenance | TaintFunction |
+| test.c:119:21:119:26 | *Packet | test.c:129:40:129:45 | *Packet | provenance |  |
+| test.c:129:5:129:62 | *... = ... | test.c:136:38:136:46 | *RcvString | provenance |  |
+| test.c:129:17:129:62 | *call to NetbufGetByte | test.c:129:5:129:62 | *... = ... | provenance |  |
+| test.c:129:40:129:45 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:129:40:129:45 | *Packet | test.c:129:17:129:62 | *call to NetbufGetByte | provenance |  |
+| test.c:146:21:146:26 | *Packet | test.c:156:16:156:21 | *Packet | provenance |  |
+| test.c:156:16:156:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:156:16:156:21 | *Packet | test.c:156:32:156:36 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:156:32:156:36 | NetbufCopy output argument | test.c:158:5:158:30 | *... = ... | provenance |  |
+| test.c:158:5:158:30 | *... = ... | test.c:161:29:161:37 | *QueryName | provenance |  |
+| test.c:171:21:171:26 | *Packet | test.c:179:5:179:68 | *... = ... | provenance | TaintFunction |
+| test.c:171:21:171:26 | *Packet | test.c:179:29:179:34 | *Packet | provenance |  |
+| test.c:179:5:179:68 | *... = ... | test.c:185:29:185:44 | *RawData | provenance |  |
+| test.c:179:15:179:27 | *call to NetbufGetByte | test.c:179:5:179:68 | *... = ... | provenance |  |
+| test.c:179:29:179:34 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:179:29:179:34 | *Packet | test.c:179:15:179:27 | *call to NetbufGetByte | provenance |  |
+| test.c:357:21:357:26 | *Packet | test.c:366:5:366:51 | *... = ... | provenance | TaintFunction |
+| test.c:357:21:357:26 | *Packet | test.c:366:29:366:34 | *Packet | provenance |  |
+| test.c:366:5:366:51 | *... = ... | test.c:372:5:372:40 | *... = ... | provenance |  |
+| test.c:366:15:366:27 | *call to NetbufGetByte | test.c:366:5:366:51 | *... = ... | provenance |  |
+| test.c:366:29:366:34 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:366:29:366:34 | *Packet | test.c:366:15:366:27 | *call to NetbufGetByte | provenance |  |
+| test.c:372:5:372:16 | *QuerySection [post update] [*Name] | test.c:375:29:375:40 | *QuerySection [*Name] | provenance |  |
+| test.c:372:5:372:40 | *... = ... | test.c:372:5:372:16 | *QuerySection [post update] [*Name] | provenance |  |
+| test.c:375:29:375:40 | *QuerySection [*Name] | test.c:375:29:375:45 | *Name | provenance |  |
+| test.c:375:29:375:40 | *QuerySection [*Name] | test.c:375:42:375:45 | *Name | provenance |  |
+| test.c:375:42:375:45 | *Name | test.c:375:29:375:45 | *Name | provenance |  |
+| test.c:387:21:387:26 | *Packet | test.c:395:16:395:21 | *Packet | provenance |  |
+| test.c:395:16:395:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:395:16:395:21 | *Packet | test.c:395:32:395:46 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:395:32:395:46 | NetbufCopy output argument | test.c:398:28:398:33 | *RcvBuf | provenance |  |
+| test.c:433:21:433:26 | *Packet | test.c:441:16:441:21 | *Packet | provenance |  |
+| test.c:441:16:441:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:441:16:441:21 | *Packet | test.c:441:32:441:46 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:441:32:441:46 | NetbufCopy output argument | test.c:444:38:444:43 | *RcvBuf | provenance |  |
+| test.c:456:21:456:26 | *Packet | test.c:464:16:464:21 | *Packet | provenance |  |
+| test.c:464:16:464:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:464:16:464:21 | *Packet | test.c:464:32:464:46 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:464:32:464:46 | NetbufCopy output argument | test.c:467:16:467:21 | *FmtBuf | provenance |  |
+| test.c:476:21:476:26 | *Packet | test.c:485:16:485:21 | *Packet | provenance |  |
+| test.c:485:16:485:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:485:16:485:21 | *Packet | test.c:485:32:485:46 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:485:32:485:46 | NetbufCopy output argument | test.c:488:41:488:46 | *FmtBuf | provenance |  |
+| test.c:500:21:500:26 | *Packet | test.c:509:16:509:21 | *Packet | provenance |  |
+| test.c:509:16:509:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:509:16:509:21 | *Packet | test.c:509:32:509:46 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:509:32:509:46 | NetbufCopy output argument | test.c:513:44:513:49 | *RcvBuf | provenance |  |
+| test.c:526:21:526:26 | *Packet | test.c:535:16:535:21 | *Packet | provenance |  |
+| test.c:535:16:535:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:535:16:535:21 | *Packet | test.c:535:32:535:46 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:535:32:535:46 | NetbufCopy output argument | test.c:539:55:539:60 | *RcvBuf | provenance |  |
+nodes
+| ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | semmle.label | **NetbufGetByte |
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | semmle.label | *... + ... |
+| ../include/NetBuffer.c:94:16:94:19 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest | semmle.label | *Dest |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | semmle.label | *Dest [Return] |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | semmle.label | *Dest [Return] |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:143:3:143:16 | *... += ... | semmle.label | *... += ... |
+| ../include/NetBuffer.c:155:7:155:33 | *... += ... | semmle.label | *... += ... |
+| test.c:119:21:119:26 | *Packet | semmle.label | *Packet |
+| test.c:129:5:129:62 | *... = ... | semmle.label | *... = ... |
+| test.c:129:17:129:62 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:129:40:129:45 | *Packet | semmle.label | *Packet |
+| test.c:136:38:136:46 | *RcvString | semmle.label | *RcvString |
+| test.c:146:21:146:26 | *Packet | semmle.label | *Packet |
+| test.c:156:16:156:21 | *Packet | semmle.label | *Packet |
+| test.c:156:32:156:36 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:158:5:158:30 | *... = ... | semmle.label | *... = ... |
+| test.c:161:29:161:37 | *QueryName | semmle.label | *QueryName |
+| test.c:171:21:171:26 | *Packet | semmle.label | *Packet |
+| test.c:179:5:179:68 | *... = ... | semmle.label | *... = ... |
+| test.c:179:15:179:27 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:179:29:179:34 | *Packet | semmle.label | *Packet |
+| test.c:185:29:185:44 | *RawData | semmle.label | *RawData |
+| test.c:357:21:357:26 | *Packet | semmle.label | *Packet |
+| test.c:366:5:366:51 | *... = ... | semmle.label | *... = ... |
+| test.c:366:15:366:27 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:366:29:366:34 | *Packet | semmle.label | *Packet |
+| test.c:372:5:372:16 | *QuerySection [post update] [*Name] | semmle.label | *QuerySection [post update] [*Name] |
+| test.c:372:5:372:40 | *... = ... | semmle.label | *... = ... |
+| test.c:375:29:375:40 | *QuerySection [*Name] | semmle.label | *QuerySection [*Name] |
+| test.c:375:29:375:45 | *Name | semmle.label | *Name |
+| test.c:375:42:375:45 | *Name | semmle.label | *Name |
+| test.c:387:21:387:26 | *Packet | semmle.label | *Packet |
+| test.c:395:16:395:21 | *Packet | semmle.label | *Packet |
+| test.c:395:32:395:46 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:398:28:398:33 | *RcvBuf | semmle.label | *RcvBuf |
+| test.c:433:21:433:26 | *Packet | semmle.label | *Packet |
+| test.c:441:16:441:21 | *Packet | semmle.label | *Packet |
+| test.c:441:32:441:46 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:444:38:444:43 | *RcvBuf | semmle.label | *RcvBuf |
+| test.c:456:21:456:26 | *Packet | semmle.label | *Packet |
+| test.c:464:16:464:21 | *Packet | semmle.label | *Packet |
+| test.c:464:32:464:46 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:467:16:467:21 | *FmtBuf | semmle.label | *FmtBuf |
+| test.c:476:21:476:26 | *Packet | semmle.label | *Packet |
+| test.c:485:16:485:21 | *Packet | semmle.label | *Packet |
+| test.c:485:32:485:46 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:488:41:488:46 | *FmtBuf | semmle.label | *FmtBuf |
+| test.c:500:21:500:26 | *Packet | semmle.label | *Packet |
+| test.c:509:16:509:21 | *Packet | semmle.label | *Packet |
+| test.c:509:32:509:46 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:513:44:513:49 | *RcvBuf | semmle.label | *RcvBuf |
+| test.c:526:21:526:26 | *Packet | semmle.label | *Packet |
+| test.c:535:16:535:21 | *Packet | semmle.label | *Packet |
+| test.c:535:32:535:46 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:539:55:539:60 | *RcvBuf | semmle.label | *RcvBuf |
+subpaths
+| test.c:129:40:129:45 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:129:17:129:62 | *call to NetbufGetByte |
+| test.c:156:16:156:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:156:32:156:36 | NetbufCopy output argument |
+| test.c:156:16:156:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:156:32:156:36 | NetbufCopy output argument |
+| test.c:156:16:156:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:156:32:156:36 | NetbufCopy output argument |
+| test.c:179:29:179:34 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:179:15:179:27 | *call to NetbufGetByte |
+| test.c:366:29:366:34 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:366:15:366:27 | *call to NetbufGetByte |
+| test.c:395:16:395:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:395:32:395:46 | NetbufCopy output argument |
+| test.c:395:16:395:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:395:32:395:46 | NetbufCopy output argument |
+| test.c:395:16:395:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:395:32:395:46 | NetbufCopy output argument |
+| test.c:441:16:441:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:441:32:441:46 | NetbufCopy output argument |
+| test.c:441:16:441:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:441:32:441:46 | NetbufCopy output argument |
+| test.c:441:16:441:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:441:32:441:46 | NetbufCopy output argument |
+| test.c:464:16:464:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:464:32:464:46 | NetbufCopy output argument |
+| test.c:464:16:464:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:464:32:464:46 | NetbufCopy output argument |
+| test.c:464:16:464:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:464:32:464:46 | NetbufCopy output argument |
+| test.c:485:16:485:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:485:32:485:46 | NetbufCopy output argument |
+| test.c:485:16:485:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:485:32:485:46 | NetbufCopy output argument |
+| test.c:485:16:485:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:485:32:485:46 | NetbufCopy output argument |
+| test.c:509:16:509:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:509:32:509:46 | NetbufCopy output argument |
+| test.c:509:16:509:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:509:32:509:46 | NetbufCopy output argument |
+| test.c:509:16:509:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:509:32:509:46 | NetbufCopy output argument |
+| test.c:535:16:535:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:535:32:535:46 | NetbufCopy output argument |
+| test.c:535:16:535:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:535:32:535:46 | NetbufCopy output argument |
+| test.c:535:16:535:21 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:535:32:535:46 | NetbufCopy output argument |
+#select
+| test.c:136:26:136:36 | call to AsciiStrLen | test.c:119:21:119:26 | *Packet | test.c:136:38:136:46 | *RcvString | Attacker-controlled data from $@ flows to AsciiStrLen, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:119:21:119:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:161:17:161:27 | call to AsciiStrLen | test.c:146:21:146:26 | *Packet | test.c:161:29:161:37 | *QueryName | Attacker-controlled data from $@ flows to AsciiStrLen, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:146:21:146:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:185:17:185:27 | call to AsciiStrLen | test.c:171:21:171:26 | *Packet | test.c:185:29:185:44 | *RawData | Attacker-controlled data from $@ flows to AsciiStrLen, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:171:21:171:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:375:17:375:27 | call to AsciiStrLen | test.c:357:21:357:26 | *Packet | test.c:375:29:375:45 | *Name | Attacker-controlled data from $@ flows to AsciiStrLen, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:357:21:357:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:398:16:398:26 | call to AsciiStrCmp | test.c:387:21:387:26 | *Packet | test.c:398:28:398:33 | *RcvBuf | Attacker-controlled data from $@ flows to AsciiStrCmp, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:387:21:387:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:444:26:444:36 | call to AsciiStrStr | test.c:433:21:433:26 | *Packet | test.c:444:38:444:43 | *RcvBuf | Attacker-controlled data from $@ flows to AsciiStrStr, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:433:21:433:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:467:5:467:14 | call to AsciiPrint | test.c:456:21:456:26 | *Packet | test.c:467:16:467:21 | *FmtBuf | Attacker-controlled data from $@ flows to AsciiPrint, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:456:21:456:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:488:5:488:15 | call to AsciiSPrint | test.c:476:21:476:26 | *Packet | test.c:488:41:488:46 | *FmtBuf | Attacker-controlled data from $@ flows to AsciiSPrint, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:476:21:476:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:513:5:513:16 | call to AsciiStrCpyS | test.c:500:21:500:26 | *Packet | test.c:513:44:513:49 | *RcvBuf | Attacker-controlled data from $@ flows to AsciiStrCpyS, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:500:21:500:26 | *Packet | data received from a UdpIoRecvDatagram callback |
+| test.c:539:5:539:15 | call to AsciiSPrint | test.c:526:21:526:26 | *Packet | test.c:539:55:539:60 | *RcvBuf | Attacker-controlled data from $@ flows to AsciiSPrint, which expects a null-terminated string. If the buffer lacks a null terminator, the function may read or write out of bounds (CWE-170). | test.c:526:21:526:26 | *Packet | data received from a UdpIoRecvDatagram callback |

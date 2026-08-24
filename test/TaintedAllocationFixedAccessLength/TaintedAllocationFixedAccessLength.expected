@@ -1,0 +1,18 @@
+edges
+| test.c:70:30:70:72 | *access to array | test.c:70:23:70:80 | call to SwapBytes16 | provenance | TaintFunction |
+| test.c:88:35:88:77 | *access to array | test.c:88:35:88:77 | *access to array | provenance |  |
+| test.c:88:35:88:77 | *access to array | test.c:89:53:89:70 | call to SwapBytes16 | provenance | TaintFunction |
+| test.c:103:38:103:80 | *access to array | test.c:103:31:103:88 | call to SwapBytes16 | provenance | TaintFunction |
+nodes
+| test.c:70:23:70:80 | call to SwapBytes16 | semmle.label | call to SwapBytes16 |
+| test.c:70:30:70:72 | *access to array | semmle.label | *access to array |
+| test.c:88:35:88:77 | *access to array | semmle.label | *access to array |
+| test.c:88:35:88:77 | *access to array | semmle.label | *access to array |
+| test.c:89:53:89:70 | call to SwapBytes16 | semmle.label | call to SwapBytes16 |
+| test.c:103:31:103:88 | call to SwapBytes16 | semmle.label | call to SwapBytes16 |
+| test.c:103:38:103:80 | *access to array | semmle.label | *access to array |
+subpaths
+#select
+| test.c:75:3:75:9 | call to CopyMem | test.c:70:30:70:72 | *access to array | test.c:70:23:70:80 | call to SwapBytes16 | Buffer allocated with an attacker-controlled size from $@ is then accessed by CopyMem with a fixed length, which can read or write past the under-allocated buffer. | test.c:70:30:70:72 | *access to array | a cached DHCPv6 option (PXE BC Cache6->OptList[]) |
+| test.c:95:3:95:9 | call to CopyMem | test.c:88:35:88:77 | *access to array | test.c:89:53:89:70 | call to SwapBytes16 | Buffer allocated with an attacker-controlled size from $@ is then accessed by CopyMem with a fixed length, which can read or write past the under-allocated buffer. | test.c:88:35:88:77 | *access to array | a cached DHCPv6 option (PXE BC Cache6->OptList[]) |
+| test.c:109:3:109:8 | call to SetMem | test.c:103:38:103:80 | *access to array | test.c:103:31:103:88 | call to SwapBytes16 | Buffer allocated with an attacker-controlled size from $@ is then accessed by SetMem with a fixed length, which can read or write past the under-allocated buffer. | test.c:103:38:103:80 | *access to array | a cached DHCPv6 option (PXE BC Cache6->OptList[]) |

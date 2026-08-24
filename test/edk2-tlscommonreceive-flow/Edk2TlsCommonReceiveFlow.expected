@@ -1,0 +1,252 @@
+edges
+| ../include/HttpsSupport.c:229:27:229:29 | **Pdu | ../include/HttpsSupport.c:387:44:387:47 | TlsReceiveOnePdu output argument | provenance |  |
+| ../include/HttpsSupport.c:229:27:229:29 | **Pdu | test.c:156:27:156:30 | TlsReceiveOnePdu output argument | provenance |  |
+| ../include/HttpsSupport.c:229:27:229:29 | **Pdu | test.c:172:27:172:30 | TlsReceiveOnePdu output argument | provenance |  |
+| ../include/HttpsSupport.c:265:3:265:55 | *... = ... | ../include/HttpsSupport.c:276:3:276:45 | ... = ... | provenance |  |
+| ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | ../include/HttpsSupport.c:265:3:265:55 | *... = ... | provenance |  |
+| ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:313:19:313:26 | *NbufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:3:316:67 | *... = ... | provenance | TaintFunction |
+| ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:276:3:276:45 | ... = ... | ../include/HttpsSupport.c:277:9:277:32 | ContentType | provenance |  |
+| ../include/HttpsSupport.c:276:3:276:45 | ... = ... | ../include/HttpsSupport.c:278:9:278:32 | ContentType | provenance |  |
+| ../include/HttpsSupport.c:276:3:276:45 | ... = ... | ../include/HttpsSupport.c:279:9:279:32 | ContentType | provenance |  |
+| ../include/HttpsSupport.c:276:3:276:45 | ... = ... | ../include/HttpsSupport.c:280:9:280:32 | ContentType | provenance |  |
+| ../include/HttpsSupport.c:276:3:276:45 | ... = ... | ../include/HttpsSupport.c:292:35:292:40 | Length | provenance |  |
+| ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:3:316:67 | *... = ... | provenance | TaintFunction |
+| ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:313:19:313:26 | *NbufList | ../include/HttpsSupport.c:313:19:313:26 | InsertTailList output argument | provenance |  |
+| ../include/HttpsSupport.c:313:19:313:26 | *NbufList | ../include/LinkedList.c:55:16:55:19 | *List | provenance |  |
+| ../include/HttpsSupport.c:313:19:313:26 | InsertTailList output argument | ../include/HttpsSupport.c:316:3:316:67 | *... = ... | provenance | TaintFunction |
+| ../include/HttpsSupport.c:313:19:313:26 | InsertTailList output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:313:19:313:26 | InsertTailList output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | provenance | TaintFunction |
+| ../include/HttpsSupport.c:316:3:316:67 | *... = ... | ../include/HttpsSupport.c:229:27:229:29 | **Pdu | provenance |  |
+| ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | ../include/HttpsSupport.c:316:3:316:67 | *... = ... | provenance |  |
+| ../include/HttpsSupport.c:333:27:333:33 | *Message | ../include/HttpsSupport.c:349:12:349:25 | CopyMem output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:349:12:349:19 | *Fragment [post update] [*Bulk] | ../include/HttpsSupport.c:336:27:336:34 | *Fragment [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:349:12:349:19 | *Fragment [post update] [*Bulk] | ../include/HttpsSupport.c:336:27:336:34 | *Fragment [Return] [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:349:12:349:25 | CopyMem output argument | ../include/HttpsSupport.c:349:12:349:19 | *Fragment [post update] [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:357:25:357:32 | *Fragment [*Bulk] | test.c:188:23:188:31 | HttpsReceive output argument [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:357:25:357:32 | *Fragment [*Bulk] | test.c:204:23:204:31 | HttpsReceive output argument [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:357:25:357:32 | *Fragment [Return] [*Bulk] | test.c:188:23:188:31 | HttpsReceive output argument [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:357:25:357:32 | *Fragment [Return] [*Bulk] | test.c:204:23:204:31 | HttpsReceive output argument [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:387:44:387:47 | TlsReceiveOnePdu output argument | ../include/HttpsSupport.c:399:15:399:17 | *Pdu | provenance |  |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | ../include/HttpsSupport.c:402:3:402:47 | ... = ... | provenance |  |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | provenance |  |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | provenance |  |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | provenance |  |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | provenance |  |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | ../include/HttpsSupport.c:543:3:543:27 | *... = ... | provenance |  |
+| ../include/HttpsSupport.c:402:3:402:47 | ... = ... | ../include/HttpsSupport.c:404:8:404:31 | ContentType | provenance |  |
+| ../include/HttpsSupport.c:402:3:402:47 | ... = ... | ../include/HttpsSupport.c:468:15:468:38 | ContentType | provenance |  |
+| ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | ../include/HttpsSupport.c:333:27:333:33 | *Message | provenance |  |
+| ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | ../include/HttpsSupport.c:410:86:410:98 | TlsProcessMessage output argument [*Bulk] | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:410:86:410:98 | TlsProcessMessage output argument [*Bulk] | ../include/HttpsSupport.c:466:24:466:35 | *TempFragment [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | ../include/HttpsSupport.c:543:3:543:27 | *... = ... | provenance |  |
+| ../include/HttpsSupport.c:466:24:466:35 | *TempFragment [*Bulk] | ../include/HttpsSupport.c:466:24:466:67 | *... + ... | provenance |  |
+| ../include/HttpsSupport.c:466:24:466:35 | *TempFragment [*Bulk] | ../include/HttpsSupport.c:466:37:466:40 | *Bulk | provenance |  |
+| ../include/HttpsSupport.c:466:24:466:67 | *... + ... | ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:466:24:466:67 | *... + ... | ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:466:24:466:67 | *... + ... | ../include/HttpsSupport.c:543:3:543:27 | *... = ... | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:466:37:466:40 | *Bulk | ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:466:37:466:40 | *Bulk | ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:466:37:466:40 | *Bulk | ../include/HttpsSupport.c:543:3:543:27 | *... = ... | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | ../include/HttpsSupport.c:485:34:485:42 | output argument | provenance | Config |
+| ../include/HttpsSupport.c:485:34:485:42 | output argument | ../include/HttpsSupport.c:508:16:508:22 | CopyMem output argument | provenance | DataFlowFunction |
+| ../include/HttpsSupport.c:543:3:543:10 | *Fragment [post update] [*Bulk] | ../include/HttpsSupport.c:357:25:357:32 | *Fragment [Return] [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:543:3:543:10 | *Fragment [post update] [*Bulk] | ../include/HttpsSupport.c:544:3:544:10 | *Fragment [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:543:3:543:27 | *... = ... | ../include/HttpsSupport.c:543:3:543:10 | *Fragment [post update] [*Bulk] | provenance |  |
+| ../include/HttpsSupport.c:544:3:544:10 | *Fragment [*Bulk] | ../include/HttpsSupport.c:357:25:357:32 | *Fragment [*Bulk] | provenance |  |
+| ../include/LinkedList.c:55:16:55:19 | *List | ../include/LinkedList.c:62:3:62:6 | *List | provenance |  |
+| ../include/LinkedList.c:62:3:62:6 | *List | ../include/LinkedList.c:55:16:55:19 | *List | provenance |  |
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:73:3:73:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | ../include/NetBuffer.c:86:12:86:46 | *... + ... | provenance |  |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | provenance |  |
+| ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:118:3:118:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:143:3:143:16 | *... += ... | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:155:7:155:33 | *... += ... | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:143:3:143:16 | *... += ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance |  |
+| ../include/NetBuffer.c:155:7:155:33 | *... += ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance |  |
+| test.c:87:27:87:32 | TlsCommonReceive output argument | test.c:88:10:88:22 | *call to NetbufGetByte | provenance | TaintFunction |
+| test.c:87:27:87:32 | TlsCommonReceive output argument | test.c:88:24:88:29 | *Packet | provenance |  |
+| test.c:88:24:88:29 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:88:24:88:29 | *Packet | test.c:88:10:88:22 | *call to NetbufGetByte | provenance |  |
+| test.c:105:27:105:32 | TlsCommonReceive output argument | test.c:106:10:106:22 | *call to NetbufGetByte | provenance | TaintFunction |
+| test.c:105:27:105:32 | TlsCommonReceive output argument | test.c:106:24:106:29 | *Packet | provenance |  |
+| test.c:106:24:106:29 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:106:24:106:29 | *Packet | test.c:106:10:106:22 | *call to NetbufGetByte | provenance |  |
+| test.c:123:27:123:32 | TlsCommonReceive output argument | test.c:124:14:124:19 | *Packet | provenance |  |
+| test.c:124:14:124:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:124:14:124:19 | *Packet | test.c:124:28:124:31 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:140:27:140:32 | TlsCommonReceive output argument | test.c:141:14:141:19 | *Packet | provenance |  |
+| test.c:141:14:141:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:141:14:141:19 | *Packet | test.c:141:28:141:31 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:156:27:156:30 | TlsReceiveOnePdu output argument | test.c:157:14:157:16 | *Pdu | provenance |  |
+| test.c:157:14:157:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:157:14:157:16 | *Pdu | test.c:157:38:157:41 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:172:27:172:30 | TlsReceiveOnePdu output argument | test.c:173:14:173:16 | *Pdu | provenance |  |
+| test.c:173:14:173:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:173:14:173:16 | *Pdu | test.c:173:38:173:41 | NetbufCopy output argument | provenance | DataFlowFunction |
+| test.c:188:23:188:31 | HttpsReceive output argument [*Bulk] | test.c:189:17:189:24 | *Fragment [*Bulk] | provenance |  |
+| test.c:189:17:189:24 | *Fragment [*Bulk] | test.c:189:17:189:29 | *Bulk | provenance |  |
+| test.c:189:17:189:24 | *Fragment [*Bulk] | test.c:189:26:189:29 | *Bulk | provenance |  |
+| test.c:189:17:189:29 | *Bulk | test.c:189:11:189:14 | CopyMem output argument | provenance | DataFlowFunction |
+| test.c:189:26:189:29 | *Bulk | test.c:189:11:189:14 | CopyMem output argument | provenance | DataFlowFunction |
+| test.c:204:23:204:31 | HttpsReceive output argument [*Bulk] | test.c:205:17:205:24 | *Fragment [*Bulk] | provenance |  |
+| test.c:205:17:205:24 | *Fragment [*Bulk] | test.c:205:17:205:29 | *Bulk | provenance |  |
+| test.c:205:17:205:24 | *Fragment [*Bulk] | test.c:205:26:205:29 | *Bulk | provenance |  |
+| test.c:205:17:205:29 | *Bulk | test.c:205:11:205:14 | CopyMem output argument | provenance | DataFlowFunction |
+| test.c:205:26:205:29 | *Bulk | test.c:205:11:205:14 | CopyMem output argument | provenance | DataFlowFunction |
+nodes
+| ../include/HttpsSupport.c:229:27:229:29 | **Pdu | semmle.label | **Pdu |
+| ../include/HttpsSupport.c:265:3:265:55 | *... = ... | semmle.label | *... = ... |
+| ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | semmle.label | *call to NetbufAllocSpace |
+| ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | semmle.label | TlsCommonReceive output argument |
+| ../include/HttpsSupport.c:276:3:276:45 | ... = ... | semmle.label | ... = ... |
+| ../include/HttpsSupport.c:277:9:277:32 | ContentType | semmle.label | ContentType |
+| ../include/HttpsSupport.c:278:9:278:32 | ContentType | semmle.label | ContentType |
+| ../include/HttpsSupport.c:279:9:279:32 | ContentType | semmle.label | ContentType |
+| ../include/HttpsSupport.c:280:9:280:32 | ContentType | semmle.label | ContentType |
+| ../include/HttpsSupport.c:292:35:292:40 | Length | semmle.label | Length |
+| ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | semmle.label | TlsCommonReceive output argument |
+| ../include/HttpsSupport.c:313:19:313:26 | *NbufList | semmle.label | *NbufList |
+| ../include/HttpsSupport.c:313:19:313:26 | InsertTailList output argument | semmle.label | InsertTailList output argument |
+| ../include/HttpsSupport.c:316:3:316:67 | *... = ... | semmle.label | *... = ... |
+| ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | semmle.label | *call to NetbufFromBufList |
+| ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | semmle.label | *call to NetbufFromBufList |
+| ../include/HttpsSupport.c:333:27:333:33 | *Message | semmle.label | *Message |
+| ../include/HttpsSupport.c:336:27:336:34 | *Fragment [*Bulk] | semmle.label | *Fragment [*Bulk] |
+| ../include/HttpsSupport.c:336:27:336:34 | *Fragment [Return] [*Bulk] | semmle.label | *Fragment [Return] [*Bulk] |
+| ../include/HttpsSupport.c:349:12:349:19 | *Fragment [post update] [*Bulk] | semmle.label | *Fragment [post update] [*Bulk] |
+| ../include/HttpsSupport.c:349:12:349:25 | CopyMem output argument | semmle.label | CopyMem output argument |
+| ../include/HttpsSupport.c:357:25:357:32 | *Fragment [*Bulk] | semmle.label | *Fragment [*Bulk] |
+| ../include/HttpsSupport.c:357:25:357:32 | *Fragment [Return] [*Bulk] | semmle.label | *Fragment [Return] [*Bulk] |
+| ../include/HttpsSupport.c:387:44:387:47 | TlsReceiveOnePdu output argument | semmle.label | TlsReceiveOnePdu output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | semmle.label | *Pdu |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| ../include/HttpsSupport.c:402:3:402:47 | ... = ... | semmle.label | ... = ... |
+| ../include/HttpsSupport.c:404:8:404:31 | ContentType | semmle.label | ContentType |
+| ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | semmle.label | *BufferIn |
+| ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | semmle.label | *BufferIn |
+| ../include/HttpsSupport.c:410:86:410:98 | TlsProcessMessage output argument [*Bulk] | semmle.label | TlsProcessMessage output argument [*Bulk] |
+| ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | semmle.label | CopyMem output argument |
+| ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | semmle.label | CopyMem output argument |
+| ../include/HttpsSupport.c:466:24:466:35 | *TempFragment [*Bulk] | semmle.label | *TempFragment [*Bulk] |
+| ../include/HttpsSupport.c:466:24:466:67 | *... + ... | semmle.label | *... + ... |
+| ../include/HttpsSupport.c:466:37:466:40 | *Bulk | semmle.label | *Bulk |
+| ../include/HttpsSupport.c:468:15:468:38 | ContentType | semmle.label | ContentType |
+| ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | semmle.label | *BufferIn |
+| ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | semmle.label | *BufferIn |
+| ../include/HttpsSupport.c:485:34:485:42 | output argument | semmle.label | output argument |
+| ../include/HttpsSupport.c:508:16:508:22 | CopyMem output argument | semmle.label | CopyMem output argument |
+| ../include/HttpsSupport.c:543:3:543:10 | *Fragment [post update] [*Bulk] | semmle.label | *Fragment [post update] [*Bulk] |
+| ../include/HttpsSupport.c:543:3:543:27 | *... = ... | semmle.label | *... = ... |
+| ../include/HttpsSupport.c:544:3:544:10 | *Fragment [*Bulk] | semmle.label | *Fragment [*Bulk] |
+| ../include/LinkedList.c:55:16:55:19 | *List | semmle.label | *List |
+| ../include/LinkedList.c:55:16:55:19 | *List | semmle.label | *List |
+| ../include/LinkedList.c:62:3:62:6 | *List | semmle.label | *List |
+| ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | semmle.label | **NetbufGetByte |
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | semmle.label | *... + ... |
+| ../include/NetBuffer.c:94:16:94:19 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest | semmle.label | *Dest |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | semmle.label | *Dest [Return] |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | semmle.label | *Dest [Return] |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:143:3:143:16 | *... += ... | semmle.label | *... += ... |
+| ../include/NetBuffer.c:155:7:155:33 | *... += ... | semmle.label | *... += ... |
+| test.c:87:27:87:32 | TlsCommonReceive output argument | semmle.label | TlsCommonReceive output argument |
+| test.c:88:10:88:22 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:88:24:88:29 | *Packet | semmle.label | *Packet |
+| test.c:105:27:105:32 | TlsCommonReceive output argument | semmle.label | TlsCommonReceive output argument |
+| test.c:106:10:106:22 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:106:24:106:29 | *Packet | semmle.label | *Packet |
+| test.c:123:27:123:32 | TlsCommonReceive output argument | semmle.label | TlsCommonReceive output argument |
+| test.c:124:14:124:19 | *Packet | semmle.label | *Packet |
+| test.c:124:28:124:31 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:140:27:140:32 | TlsCommonReceive output argument | semmle.label | TlsCommonReceive output argument |
+| test.c:141:14:141:19 | *Packet | semmle.label | *Packet |
+| test.c:141:28:141:31 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:156:27:156:30 | TlsReceiveOnePdu output argument | semmle.label | TlsReceiveOnePdu output argument |
+| test.c:157:14:157:16 | *Pdu | semmle.label | *Pdu |
+| test.c:157:38:157:41 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:172:27:172:30 | TlsReceiveOnePdu output argument | semmle.label | TlsReceiveOnePdu output argument |
+| test.c:173:14:173:16 | *Pdu | semmle.label | *Pdu |
+| test.c:173:38:173:41 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+| test.c:188:23:188:31 | HttpsReceive output argument [*Bulk] | semmle.label | HttpsReceive output argument [*Bulk] |
+| test.c:189:11:189:14 | CopyMem output argument | semmle.label | CopyMem output argument |
+| test.c:189:17:189:24 | *Fragment [*Bulk] | semmle.label | *Fragment [*Bulk] |
+| test.c:189:17:189:29 | *Bulk | semmle.label | *Bulk |
+| test.c:189:26:189:29 | *Bulk | semmle.label | *Bulk |
+| test.c:204:23:204:31 | HttpsReceive output argument [*Bulk] | semmle.label | HttpsReceive output argument [*Bulk] |
+| test.c:205:11:205:14 | CopyMem output argument | semmle.label | CopyMem output argument |
+| test.c:205:17:205:24 | *Fragment [*Bulk] | semmle.label | *Fragment [*Bulk] |
+| test.c:205:17:205:29 | *Bulk | semmle.label | *Bulk |
+| test.c:205:26:205:29 | *Bulk | semmle.label | *Bulk |
+subpaths
+| ../include/HttpsSupport.c:313:19:313:26 | *NbufList | ../include/LinkedList.c:55:16:55:19 | *List | ../include/LinkedList.c:55:16:55:19 | *List | ../include/HttpsSupport.c:313:19:313:26 | InsertTailList output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument |
+| ../include/HttpsSupport.c:399:15:399:17 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument |
+| ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | ../include/HttpsSupport.c:333:27:333:33 | *Message | ../include/HttpsSupport.c:336:27:336:34 | *Fragment [*Bulk] | ../include/HttpsSupport.c:410:86:410:98 | TlsProcessMessage output argument [*Bulk] |
+| ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | ../include/HttpsSupport.c:333:27:333:33 | *Message | ../include/HttpsSupport.c:336:27:336:34 | *Fragment [Return] [*Bulk] | ../include/HttpsSupport.c:410:86:410:98 | TlsProcessMessage output argument [*Bulk] |
+| test.c:88:24:88:29 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:88:10:88:22 | *call to NetbufGetByte |
+| test.c:106:24:106:29 | *Packet | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:106:10:106:22 | *call to NetbufGetByte |
+| test.c:124:14:124:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:124:28:124:31 | NetbufCopy output argument |
+| test.c:124:14:124:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:124:28:124:31 | NetbufCopy output argument |
+| test.c:124:14:124:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:124:28:124:31 | NetbufCopy output argument |
+| test.c:141:14:141:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:141:28:141:31 | NetbufCopy output argument |
+| test.c:141:14:141:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:141:28:141:31 | NetbufCopy output argument |
+| test.c:141:14:141:19 | *Packet | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:141:28:141:31 | NetbufCopy output argument |
+| test.c:157:14:157:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:157:38:157:41 | NetbufCopy output argument |
+| test.c:157:14:157:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:157:38:157:41 | NetbufCopy output argument |
+| test.c:157:14:157:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:157:38:157:41 | NetbufCopy output argument |
+| test.c:173:14:173:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:173:38:173:41 | NetbufCopy output argument |
+| test.c:173:14:173:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:173:38:173:41 | NetbufCopy output argument |
+| test.c:173:14:173:16 | *Pdu | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:173:38:173:41 | NetbufCopy output argument |
+#select
+| ../include/HttpsSupport.c:277:22:277:32 | ContentType | ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | ../include/HttpsSupport.c:277:9:277:32 | ContentType | Taint flows to TlsReceiveOnePdu RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:278:22:278:32 | ContentType | ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | ../include/HttpsSupport.c:278:9:278:32 | ContentType | Taint flows to TlsReceiveOnePdu RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:279:22:279:32 | ContentType | ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | ../include/HttpsSupport.c:279:9:279:32 | ContentType | Taint flows to TlsReceiveOnePdu RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:280:22:280:32 | ContentType | ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | ../include/HttpsSupport.c:280:9:280:32 | ContentType | Taint flows to TlsReceiveOnePdu RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:292:9:292:19 | call to SwapBytes16 | ../include/HttpsSupport.c:265:12:265:27 | *call to NetbufAllocSpace | ../include/HttpsSupport.c:292:35:292:40 | Length | Taint flows to TlsReceiveOnePdu RecordHeader.Length. |
+| ../include/HttpsSupport.c:316:10:316:26 | call to NetbufFromBufList | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | Taint flows to TlsReceiveOnePdu NetbufFromBufList return[*1]. |
+| ../include/HttpsSupport.c:316:10:316:26 | call to NetbufFromBufList | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:316:10:316:26 | *call to NetbufFromBufList | Taint flows to TlsReceiveOnePdu NetbufFromBufList return[*1]. |
+| ../include/HttpsSupport.c:399:3:399:12 | call to NetbufCopy | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | Taint flows to HttpsReceive NetbufCopy arg[*3]. |
+| ../include/HttpsSupport.c:399:3:399:12 | call to NetbufCopy | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:399:45:399:52 | NetbufCopy output argument | Taint flows to HttpsReceive NetbufCopy arg[*3]. |
+| ../include/HttpsSupport.c:404:21:404:31 | ContentType | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:404:8:404:31 | ContentType | Taint flows to HttpsReceive RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:404:21:404:31 | ContentType | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:404:8:404:31 | ContentType | Taint flows to HttpsReceive RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:410:14:410:30 | call to TlsProcessMessage | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | Taint flows to HttpsReceive TlsProcessMessage arg[*1]. |
+| ../include/HttpsSupport.c:410:14:410:30 | call to TlsProcessMessage | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:410:47:410:54 | *BufferIn | Taint flows to HttpsReceive TlsProcessMessage arg[*1]. |
+| ../include/HttpsSupport.c:466:5:466:11 | call to CopyMem | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | Taint flows to HttpsReceive appdata CopyMem arg[*0]. |
+| ../include/HttpsSupport.c:466:5:466:11 | call to CopyMem | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:466:14:466:21 | CopyMem output argument | Taint flows to HttpsReceive appdata CopyMem arg[*0]. |
+| ../include/HttpsSupport.c:468:28:468:38 | ContentType | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:468:15:468:38 | ContentType | Taint flows to HttpsReceive RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:468:28:468:38 | ContentType | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:468:15:468:38 | ContentType | Taint flows to HttpsReceive RecordHeader.ContentType. |
+| ../include/HttpsSupport.c:481:14:487:34 | call to expression | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | Taint flows to HttpsReceive BuildResponsePacket arg[*1]. |
+| ../include/HttpsSupport.c:481:14:487:34 | call to expression | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:483:34:483:41 | *BufferIn | Taint flows to HttpsReceive BuildResponsePacket arg[*1]. |
+| ../include/HttpsSupport.c:508:7:508:13 | call to CopyMem | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | ../include/HttpsSupport.c:508:16:508:22 | CopyMem output argument | Taint flows to HttpsReceive alert CopyMem arg[*0]. |
+| ../include/HttpsSupport.c:508:7:508:13 | call to CopyMem | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | ../include/HttpsSupport.c:508:16:508:22 | CopyMem output argument | Taint flows to HttpsReceive alert CopyMem arg[*0]. |
+| test.c:88:10:88:22 | call to NetbufGetByte | test.c:87:27:87:32 | TlsCommonReceive output argument | test.c:88:10:88:22 | *call to NetbufGetByte | Taint flows to TlsCommonReceive -> NetbufGetByte return[*1]. |
+| test.c:106:10:106:22 | call to NetbufGetByte | test.c:105:27:105:32 | TlsCommonReceive output argument | test.c:106:10:106:22 | *call to NetbufGetByte | Taint flows to TlsCommonReceive -> NetbufGetByte return[*1]. |
+| test.c:124:3:124:12 | call to NetbufCopy | test.c:123:27:123:32 | TlsCommonReceive output argument | test.c:124:28:124:31 | NetbufCopy output argument | Taint flows to TlsCommonReceive -> NetbufCopy arg[*3]. |
+| test.c:141:3:141:12 | call to NetbufCopy | test.c:140:27:140:32 | TlsCommonReceive output argument | test.c:141:28:141:31 | NetbufCopy output argument | Taint flows to TlsCommonReceive -> NetbufCopy arg[*3]. |
+| test.c:157:3:157:12 | call to NetbufCopy | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | test.c:157:38:157:41 | NetbufCopy output argument | Taint flows to TlsReceiveOnePdu *Pdu -> NetbufCopy arg[*3]. |
+| test.c:157:3:157:12 | call to NetbufCopy | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | test.c:157:38:157:41 | NetbufCopy output argument | Taint flows to TlsReceiveOnePdu *Pdu -> NetbufCopy arg[*3]. |
+| test.c:173:3:173:12 | call to NetbufCopy | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | test.c:173:38:173:41 | NetbufCopy output argument | Taint flows to TlsReceiveOnePdu *Pdu -> NetbufCopy arg[*3]. |
+| test.c:173:3:173:12 | call to NetbufCopy | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | test.c:173:38:173:41 | NetbufCopy output argument | Taint flows to TlsReceiveOnePdu *Pdu -> NetbufCopy arg[*3]. |
+| test.c:189:3:189:9 | call to CopyMem | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | test.c:189:11:189:14 | CopyMem output argument | Taint flows to HttpsReceive final Fragment.Bulk -> CopyMem arg[*0]. |
+| test.c:189:3:189:9 | call to CopyMem | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | test.c:189:11:189:14 | CopyMem output argument | Taint flows to HttpsReceive final Fragment.Bulk -> CopyMem arg[*0]. |
+| test.c:205:3:205:9 | call to CopyMem | ../include/HttpsSupport.c:271:44:271:49 | TlsCommonReceive output argument | test.c:205:11:205:14 | CopyMem output argument | Taint flows to HttpsReceive final Fragment.Bulk -> CopyMem arg[*0]. |
+| test.c:205:3:205:9 | call to CopyMem | ../include/HttpsSupport.c:308:44:308:50 | TlsCommonReceive output argument | test.c:205:11:205:14 | CopyMem output argument | Taint flows to HttpsReceive final Fragment.Bulk -> CopyMem arg[*0]. |
