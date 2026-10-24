@@ -1,0 +1,52 @@
+edges
+| test.c:58:3:58:59 | *... = ... | test.c:59:8:59:28 | * ... | provenance |  |
+| test.c:58:39:58:48 | *mImageBase | test.c:58:3:58:59 | *... = ... | provenance |  |
+| test.c:70:11:70:18 | *AuthData | test.c:74:8:74:22 | * ... | provenance |  |
+| test.c:89:3:89:63 | *... = ... | test.c:90:3:90:27 | *... = ... | provenance |  |
+| test.c:89:43:89:52 | *mImageBase | test.c:89:3:89:63 | *... = ... | provenance |  |
+| test.c:90:3:90:27 | *... = ... | test.c:91:25:91:32 | *AuthData | provenance |  |
+| test.c:91:25:91:32 | *AuthData | test.c:70:11:70:18 | *AuthData | provenance |  |
+| test.c:102:3:102:40 | *... = ... | test.c:103:8:103:14 | access to array | provenance |  |
+| test.c:102:20:102:29 | *mImageBase | test.c:102:3:102:40 | *... = ... | provenance |  |
+| test.c:120:3:120:19 | *... = ... | test.c:121:3:121:13 | *... = ... | provenance |  |
+| test.c:120:10:120:19 | *mImageBase | test.c:120:3:120:19 | *... = ... | provenance |  |
+| test.c:121:3:121:13 | *... = ... | test.c:122:8:122:15 | * ... | provenance |  |
+| test.c:249:12:249:17 | *Option | test.c:249:12:249:17 | *Option | provenance |  |
+| test.c:292:3:292:45 | *... = ... | test.c:294:26:294:31 | *Option | provenance |  |
+| test.c:292:3:292:45 | *... = ... | test.c:298:7:298:19 | * ... | provenance |  |
+| test.c:292:25:292:34 | *mImageBase | test.c:292:3:292:45 | *... = ... | provenance |  |
+| test.c:294:26:294:31 | *Option | test.c:249:12:249:17 | *Option | provenance |  |
+| test.c:294:26:294:31 | *Option | test.c:294:26:294:31 | ValidateNoMinLen output argument | provenance |  |
+| test.c:294:26:294:31 | ValidateNoMinLen output argument | test.c:298:7:298:19 | * ... | provenance |  |
+nodes
+| test.c:58:3:58:59 | *... = ... | semmle.label | *... = ... |
+| test.c:58:39:58:48 | *mImageBase | semmle.label | *mImageBase |
+| test.c:59:8:59:28 | * ... | semmle.label | * ... |
+| test.c:70:11:70:18 | *AuthData | semmle.label | *AuthData |
+| test.c:74:8:74:22 | * ... | semmle.label | * ... |
+| test.c:89:3:89:63 | *... = ... | semmle.label | *... = ... |
+| test.c:89:43:89:52 | *mImageBase | semmle.label | *mImageBase |
+| test.c:90:3:90:27 | *... = ... | semmle.label | *... = ... |
+| test.c:91:25:91:32 | *AuthData | semmle.label | *AuthData |
+| test.c:102:3:102:40 | *... = ... | semmle.label | *... = ... |
+| test.c:102:20:102:29 | *mImageBase | semmle.label | *mImageBase |
+| test.c:103:8:103:14 | access to array | semmle.label | access to array |
+| test.c:120:3:120:19 | *... = ... | semmle.label | *... = ... |
+| test.c:120:10:120:19 | *mImageBase | semmle.label | *mImageBase |
+| test.c:121:3:121:13 | *... = ... | semmle.label | *... = ... |
+| test.c:122:8:122:15 | * ... | semmle.label | * ... |
+| test.c:249:12:249:17 | *Option | semmle.label | *Option |
+| test.c:249:12:249:17 | *Option | semmle.label | *Option |
+| test.c:292:3:292:45 | *... = ... | semmle.label | *... = ... |
+| test.c:292:25:292:34 | *mImageBase | semmle.label | *mImageBase |
+| test.c:294:26:294:31 | *Option | semmle.label | *Option |
+| test.c:294:26:294:31 | ValidateNoMinLen output argument | semmle.label | ValidateNoMinLen output argument |
+| test.c:298:7:298:19 | * ... | semmle.label | * ... |
+subpaths
+| test.c:294:26:294:31 | *Option | test.c:249:12:249:17 | *Option | test.c:249:12:249:17 | *Option | test.c:294:26:294:31 | ValidateNoMinLen output argument |
+#select
+| test.c:59:8:59:28 | * ... | test.c:58:39:58:48 | *mImageBase | test.c:59:8:59:28 | * ... | Out-of-bounds read: attacker-controlled data from $@ is read at constant offset 1 with no guard that the buffer length exceeds 1. | test.c:58:39:58:48 | *mImageBase | PE/COFF image being verified by SecurityPkg (mImageBase) |
+| test.c:74:8:74:22 | * ... | test.c:89:43:89:52 | *mImageBase | test.c:74:8:74:22 | * ... | Out-of-bounds read: attacker-controlled data from $@ is read at constant offset 1 with no guard that the buffer length exceeds 1. | test.c:89:43:89:52 | *mImageBase | PE/COFF image being verified by SecurityPkg (mImageBase) |
+| test.c:103:8:103:14 | access to array | test.c:102:20:102:29 | *mImageBase | test.c:103:8:103:14 | access to array | Out-of-bounds read: attacker-controlled data from $@ is read at constant offset 1 with no guard that the buffer length exceeds 1. | test.c:102:20:102:29 | *mImageBase | PE/COFF image being verified by SecurityPkg (mImageBase) |
+| test.c:122:8:122:15 | * ... | test.c:120:10:120:19 | *mImageBase | test.c:122:8:122:15 | * ... | Out-of-bounds read: attacker-controlled data from $@ is read at constant offset 2 with no guard that the buffer length exceeds 2. | test.c:120:10:120:19 | *mImageBase | PE/COFF image being verified by SecurityPkg (mImageBase) |
+| test.c:298:7:298:19 | * ... | test.c:292:25:292:34 | *mImageBase | test.c:298:7:298:19 | * ... | Out-of-bounds read: attacker-controlled data from $@ is read at constant offset 1 with no guard that the buffer length exceeds 1. | test.c:292:25:292:34 | *mImageBase | PE/COFF image being verified by SecurityPkg (mImageBase) |

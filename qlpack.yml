@@ -1,0 +1,5 @@
+name: tianoshield/edk2-queries
+version: 0.0.1
+defaultSuiteFile: default-queries.qls
+dependencies:
+  codeql/cpp-all: "*"

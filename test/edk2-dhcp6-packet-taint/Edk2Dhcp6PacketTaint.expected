@@ -1,0 +1,12 @@
+edges
+| test.c:34:21:34:26 | *Packet | test.c:35:3:35:8 | *Packet | provenance |  |
+| test.c:35:3:35:8 | *Packet | test.c:37:10:37:29 | *Option | provenance |  |
+| test.c:35:32:35:39 | *Udp6Wrap | test.c:34:21:34:26 | *Packet | provenance | Config |
+nodes
+| test.c:34:21:34:26 | *Packet | semmle.label | *Packet |
+| test.c:35:3:35:8 | *Packet | semmle.label | *Packet |
+| test.c:35:32:35:39 | *Udp6Wrap | semmle.label | *Udp6Wrap |
+| test.c:37:10:37:29 | *Option | semmle.label | *Option |
+subpaths
+#select
+| test.c:37:24:37:29 | Option | test.c:35:32:35:39 | *Udp6Wrap | test.c:37:10:37:29 | *Option | Taint flows from received NET_BUF to Packet->Dhcp6.Option. |

@@ -1,0 +1,40 @@
+edges
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:73:3:73:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | ../include/NetBuffer.c:86:12:86:46 | *... + ... | provenance |  |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | provenance |  |
+| ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:118:3:118:25 | *... = ... | provenance |  |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:143:3:143:16 | *... += ... | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | ../include/NetBuffer.c:155:7:155:33 | *... += ... | provenance | DataFlowFunction |
+| ../include/NetBuffer.c:143:3:143:16 | *... += ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance |  |
+| ../include/NetBuffer.c:155:7:155:33 | *... += ... | ../include/NetBuffer.c:97:16:97:19 | *Dest | provenance |  |
+| test.c:8:25:8:28 | *Nbuf | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | provenance |  |
+| test.c:8:25:8:28 | *Nbuf | test.c:8:10:8:22 | *call to NetbufGetByte | provenance |  |
+| test.c:17:15:17:18 | *Nbuf | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | provenance |  |
+| test.c:17:15:17:18 | *Nbuf | test.c:17:27:17:30 | NetbufCopy output argument | provenance | DataFlowFunction |
+nodes
+| ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | semmle.label | **NetbufGetByte |
+| ../include/NetBuffer.c:58:17:58:20 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:73:3:73:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:86:12:86:46 | *... + ... | semmle.label | *... + ... |
+| ../include/NetBuffer.c:94:16:94:19 | *Nbuf | semmle.label | *Nbuf |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest | semmle.label | *Dest |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | semmle.label | *Dest [Return] |
+| ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | semmle.label | *Dest [Return] |
+| ../include/NetBuffer.c:118:3:118:25 | *... = ... | semmle.label | *... = ... |
+| ../include/NetBuffer.c:143:3:143:16 | *... += ... | semmle.label | *... += ... |
+| ../include/NetBuffer.c:155:7:155:33 | *... += ... | semmle.label | *... += ... |
+| test.c:8:10:8:22 | *call to NetbufGetByte | semmle.label | *call to NetbufGetByte |
+| test.c:8:25:8:28 | *Nbuf | semmle.label | *Nbuf |
+| test.c:17:15:17:18 | *Nbuf | semmle.label | *Nbuf |
+| test.c:17:27:17:30 | NetbufCopy output argument | semmle.label | NetbufCopy output argument |
+subpaths
+| test.c:8:25:8:28 | *Nbuf | ../include/NetBuffer.c:58:17:58:20 | *Nbuf | ../include/NetBuffer.c:57:1:57:13 | **NetbufGetByte | test.c:8:10:8:22 | *call to NetbufGetByte |
+| test.c:17:15:17:18 | *Nbuf | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest | test.c:17:27:17:30 | NetbufCopy output argument |
+| test.c:17:15:17:18 | *Nbuf | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:17:27:17:30 | NetbufCopy output argument |
+| test.c:17:15:17:18 | *Nbuf | ../include/NetBuffer.c:94:16:94:19 | *Nbuf | ../include/NetBuffer.c:97:16:97:19 | *Dest [Return] | test.c:17:27:17:30 | NetbufCopy output argument |
+#select
+| test.c:8:10:8:22 | call to NetbufGetByte | test.c:8:25:8:28 | *Nbuf | test.c:8:10:8:22 | *call to NetbufGetByte | Taint flows to NetbufGetByte return[*1]. |
+| test.c:17:3:17:12 | call to NetbufCopy | test.c:17:15:17:18 | *Nbuf | test.c:17:27:17:30 | NetbufCopy output argument | Taint flows to NetbufCopy arg[*3]. |

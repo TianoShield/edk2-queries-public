@@ -1,0 +1,7 @@
+- description: All EDK2 security queries
+- queries: .
+- exclude:
+    query path:
+      - /test/
+      - /tmp/
+      - /lib/

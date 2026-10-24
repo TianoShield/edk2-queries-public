@@ -1,0 +1,92 @@
+edges
+| ../include/Dhcp6Dxe.c:34:12:34:14 | *Buf | ../include/Dhcp6Dxe.c:45:3:45:14 | *... = ... | provenance |  |
+| ../include/Dhcp6Dxe.c:45:3:45:14 | *... = ... | ../include/Dhcp6Dxe.c:50:7:50:21 | *... = ... | provenance |  |
+| ../include/Dhcp6Dxe.c:45:3:45:14 | *... = ... | ../include/Dhcp6Dxe.c:55:5:55:27 | *... += ... | provenance |  |
+| ../include/Dhcp6Dxe.c:50:7:50:21 | *... = ... | ../include/Dhcp6Dxe.c:58:10:58:15 | *Option | provenance |  |
+| ../include/Dhcp6Dxe.c:55:5:55:27 | *... += ... | ../include/Dhcp6Dxe.c:50:7:50:21 | *... = ... | provenance |  |
+| ../include/Dhcp6Dxe.c:58:10:58:15 | *Option | ../include/Dhcp6Dxe.c:33:1:33:15 | **Dhcp6SeekOption | provenance |  |
+| ../include/Dhcp6Dxe.c:71:11:71:16 | OptLen | ../include/Dhcp6Dxe.c:79:23:79:36 | call to SwapBytes16 | provenance | TaintFunction |
+| ../include/PxeBcDhcp6.c:25:12:25:14 | *Buf | ../include/PxeBcDhcp6.c:36:3:36:14 | *... = ... | provenance |  |
+| ../include/PxeBcDhcp6.c:36:3:36:14 | *... = ... | ../include/PxeBcDhcp6.c:41:7:41:21 | *... = ... | provenance |  |
+| ../include/PxeBcDhcp6.c:36:3:36:14 | *... = ... | ../include/PxeBcDhcp6.c:46:5:46:27 | *... += ... | provenance |  |
+| ../include/PxeBcDhcp6.c:41:7:41:21 | *... = ... | ../include/PxeBcDhcp6.c:49:10:49:15 | *Option | provenance |  |
+| ../include/PxeBcDhcp6.c:46:5:46:27 | *... += ... | ../include/PxeBcDhcp6.c:41:7:41:21 | *... = ... | provenance |  |
+| ../include/PxeBcDhcp6.c:49:10:49:15 | *Option | ../include/PxeBcDhcp6.c:24:1:24:20 | **PxeBcDhcp6SeekOption | provenance |  |
+| test.c:84:5:84:65 | *... = ... | test.c:86:5:88:54 | *... = ... | provenance | TaintFunction |
+| test.c:84:5:84:65 | *... = ... | test.c:86:35:86:58 | *Option | provenance |  |
+| test.c:84:19:84:65 | *& ... | test.c:84:5:84:65 | *... = ... | provenance |  |
+| test.c:86:5:88:54 | *... = ... | test.c:93:5:93:61 | ... = ... | provenance | TaintFunction |
+| test.c:86:14:86:33 | *call to PxeBcDhcp6SeekOption | test.c:86:5:88:54 | *... = ... | provenance |  |
+| test.c:86:35:86:58 | *Option | ../include/PxeBcDhcp6.c:25:12:25:14 | *Buf | provenance |  |
+| test.c:86:35:86:58 | *Option | test.c:86:14:86:33 | *call to PxeBcDhcp6SeekOption | provenance |  |
+| test.c:93:5:93:61 | ... = ... | test.c:96:34:96:80 | ... + ... | provenance |  |
+| test.c:115:5:115:39 | *... = ... | test.c:116:5:116:39 | *... = ... | provenance |  |
+| test.c:115:28:115:39 | *Dhcp6Request | test.c:115:5:115:39 | *... = ... | provenance |  |
+| test.c:116:5:116:39 | *... = ... | test.c:118:5:118:65 | ... = ... | provenance | TaintFunction |
+| test.c:118:5:118:65 | ... = ... | test.c:121:38:121:84 | ... + ... | provenance |  |
+| test.c:239:5:241:46 | *... = ... | test.c:246:5:246:45 | *... = ... | provenance |  |
+| test.c:239:14:239:28 | *call to Dhcp6SeekOption | test.c:239:5:241:46 | *... = ... | provenance |  |
+| test.c:239:30:239:61 | *Option | ../include/Dhcp6Dxe.c:34:12:34:14 | *Buf | provenance |  |
+| test.c:239:30:239:61 | *Option | test.c:239:14:239:28 | *call to Dhcp6SeekOption | provenance |  |
+| test.c:239:40:239:47 | *AdSelect | test.c:239:5:241:46 | *... = ... | provenance | TaintFunction |
+| test.c:239:40:239:47 | *AdSelect | test.c:239:30:239:61 | *Option | provenance |  |
+| test.c:246:5:246:45 | *... = ... | test.c:257:42:257:47 | Length | provenance |  |
+| test.c:257:42:257:47 | Length | ../include/Dhcp6Dxe.c:71:11:71:16 | OptLen | provenance |  |
+| test.c:273:5:273:48 | *... = ... | test.c:275:5:277:46 | *... = ... | provenance | TaintFunction |
+| test.c:273:5:273:48 | *... = ... | test.c:275:30:275:54 | *Option | provenance |  |
+| test.c:273:38:273:48 | *ReplyPacket | test.c:273:5:273:48 | *... = ... | provenance |  |
+| test.c:275:5:277:46 | *... = ... | test.c:282:5:282:45 | *... = ... | provenance |  |
+| test.c:275:14:275:28 | *call to Dhcp6SeekOption | test.c:275:5:277:46 | *... = ... | provenance |  |
+| test.c:275:30:275:54 | *Option | ../include/Dhcp6Dxe.c:34:12:34:14 | *Buf | provenance |  |
+| test.c:275:30:275:54 | *Option | test.c:275:14:275:28 | *call to Dhcp6SeekOption | provenance |  |
+| test.c:282:5:282:45 | *... = ... | test.c:292:42:292:47 | Length | provenance |  |
+| test.c:292:42:292:47 | Length | ../include/Dhcp6Dxe.c:71:11:71:16 | OptLen | provenance |  |
+nodes
+| ../include/Dhcp6Dxe.c:33:1:33:15 | **Dhcp6SeekOption | semmle.label | **Dhcp6SeekOption |
+| ../include/Dhcp6Dxe.c:34:12:34:14 | *Buf | semmle.label | *Buf |
+| ../include/Dhcp6Dxe.c:45:3:45:14 | *... = ... | semmle.label | *... = ... |
+| ../include/Dhcp6Dxe.c:50:7:50:21 | *... = ... | semmle.label | *... = ... |
+| ../include/Dhcp6Dxe.c:55:5:55:27 | *... += ... | semmle.label | *... += ... |
+| ../include/Dhcp6Dxe.c:58:10:58:15 | *Option | semmle.label | *Option |
+| ../include/Dhcp6Dxe.c:71:11:71:16 | OptLen | semmle.label | OptLen |
+| ../include/Dhcp6Dxe.c:79:23:79:36 | call to SwapBytes16 | semmle.label | call to SwapBytes16 |
+| ../include/PxeBcDhcp6.c:24:1:24:20 | **PxeBcDhcp6SeekOption | semmle.label | **PxeBcDhcp6SeekOption |
+| ../include/PxeBcDhcp6.c:25:12:25:14 | *Buf | semmle.label | *Buf |
+| ../include/PxeBcDhcp6.c:36:3:36:14 | *... = ... | semmle.label | *... = ... |
+| ../include/PxeBcDhcp6.c:41:7:41:21 | *... = ... | semmle.label | *... = ... |
+| ../include/PxeBcDhcp6.c:46:5:46:27 | *... += ... | semmle.label | *... += ... |
+| ../include/PxeBcDhcp6.c:49:10:49:15 | *Option | semmle.label | *Option |
+| test.c:84:5:84:65 | *... = ... | semmle.label | *... = ... |
+| test.c:84:19:84:65 | *& ... | semmle.label | *& ... |
+| test.c:86:5:88:54 | *... = ... | semmle.label | *... = ... |
+| test.c:86:14:86:33 | *call to PxeBcDhcp6SeekOption | semmle.label | *call to PxeBcDhcp6SeekOption |
+| test.c:86:35:86:58 | *Option | semmle.label | *Option |
+| test.c:93:5:93:61 | ... = ... | semmle.label | ... = ... |
+| test.c:96:34:96:80 | ... + ... | semmle.label | ... + ... |
+| test.c:115:5:115:39 | *... = ... | semmle.label | *... = ... |
+| test.c:115:28:115:39 | *Dhcp6Request | semmle.label | *Dhcp6Request |
+| test.c:116:5:116:39 | *... = ... | semmle.label | *... = ... |
+| test.c:118:5:118:65 | ... = ... | semmle.label | ... = ... |
+| test.c:121:38:121:84 | ... + ... | semmle.label | ... + ... |
+| test.c:239:5:241:46 | *... = ... | semmle.label | *... = ... |
+| test.c:239:14:239:28 | *call to Dhcp6SeekOption | semmle.label | *call to Dhcp6SeekOption |
+| test.c:239:30:239:61 | *Option | semmle.label | *Option |
+| test.c:239:40:239:47 | *AdSelect | semmle.label | *AdSelect |
+| test.c:246:5:246:45 | *... = ... | semmle.label | *... = ... |
+| test.c:257:42:257:47 | Length | semmle.label | Length |
+| test.c:273:5:273:48 | *... = ... | semmle.label | *... = ... |
+| test.c:273:38:273:48 | *ReplyPacket | semmle.label | *ReplyPacket |
+| test.c:275:5:277:46 | *... = ... | semmle.label | *... = ... |
+| test.c:275:14:275:28 | *call to Dhcp6SeekOption | semmle.label | *call to Dhcp6SeekOption |
+| test.c:275:30:275:54 | *Option | semmle.label | *Option |
+| test.c:282:5:282:45 | *... = ... | semmle.label | *... = ... |
+| test.c:292:42:292:47 | Length | semmle.label | Length |
+subpaths
+| test.c:86:35:86:58 | *Option | ../include/PxeBcDhcp6.c:25:12:25:14 | *Buf | ../include/PxeBcDhcp6.c:24:1:24:20 | **PxeBcDhcp6SeekOption | test.c:86:14:86:33 | *call to PxeBcDhcp6SeekOption |
+| test.c:239:30:239:61 | *Option | ../include/Dhcp6Dxe.c:34:12:34:14 | *Buf | ../include/Dhcp6Dxe.c:33:1:33:15 | **Dhcp6SeekOption | test.c:239:14:239:28 | *call to Dhcp6SeekOption |
+| test.c:275:30:275:54 | *Option | ../include/Dhcp6Dxe.c:34:12:34:14 | *Buf | ../include/Dhcp6Dxe.c:33:1:33:15 | **Dhcp6SeekOption | test.c:275:14:275:28 | *call to Dhcp6SeekOption |
+#select
+| ../include/Dhcp6Dxe.c:79:3:79:9 | call to CopyMem | test.c:239:40:239:47 | *AdSelect | ../include/Dhcp6Dxe.c:79:23:79:36 | call to SwapBytes16 | Attacker-controlled length from $@ flows to the length argument of CopyMem, potentially causing an out-of-bounds memory access. | test.c:239:40:239:47 | *AdSelect | a cached DHCPv6 packet (Dhcp6Dxe Instance->AdSelect/Ia->ReplyPacket) |
+| ../include/Dhcp6Dxe.c:79:3:79:9 | call to CopyMem | test.c:273:38:273:48 | *ReplyPacket | ../include/Dhcp6Dxe.c:79:23:79:36 | call to SwapBytes16 | Attacker-controlled length from $@ flows to the length argument of CopyMem, potentially causing an out-of-bounds memory access. | test.c:273:38:273:48 | *ReplyPacket | a cached DHCPv6 packet (Dhcp6Dxe Instance->AdSelect/Ia->ReplyPacket) |
+| test.c:96:5:96:11 | call to CopyMem | test.c:84:19:84:65 | *& ... | test.c:96:34:96:80 | ... + ... | Attacker-controlled length from $@ flows to the length argument of CopyMem, potentially causing an out-of-bounds memory access. | test.c:84:19:84:65 | *& ... | a cached DHCPv6 packet (PXE BC Private->OfferBuffer/Dhcp6Request) |
+| test.c:121:5:121:11 | call to CopyMem | test.c:115:28:115:39 | *Dhcp6Request | test.c:121:38:121:84 | ... + ... | Attacker-controlled length from $@ flows to the length argument of CopyMem, potentially causing an out-of-bounds memory access. | test.c:115:28:115:39 | *Dhcp6Request | a cached DHCPv6 packet (PXE BC Private->OfferBuffer/Dhcp6Request) |
