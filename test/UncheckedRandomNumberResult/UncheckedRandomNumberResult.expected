@@ -1,0 +1,5 @@
+| test.c:73:3:73:13 | call to RandomBytes | The result of RandomBytes is not checked; when the generator fails, its output buffer is used without random data. |
+| test.c:86:8:86:24 | call to GetRandomNumber64 | The result of GetRandomNumber64 is not checked; when the generator fails, its output buffer is used without random data. |
+| test.c:99:12:99:43 | call to expression | The result of GetRNG is not checked; when the generator fails, its output buffer is used without random data. |
+| test.c:113:3:113:19 | call to GenerateSalt_GOOD | The result of GenerateSalt_GOOD is not checked; when the generator fails, its output buffer is used without random data. |
+| test.c:142:3:142:13 | call to FillEntropy | The result of FillEntropy is not checked; when the generator fails, its output buffer is used without random data. |

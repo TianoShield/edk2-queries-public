@@ -1,0 +1,3 @@
+| test.c:52:5:52:47 | ... -= ... | 'MadtLen' is reduced by the Length of the record 'ApicStructHeader' points to after $@ moved it to the next record, so the remaining length no longer matches the bytes consumed. | test.c:51:5:51:99 | ... = ... | this advance |
+| test.c:70:5:70:41 | ... = ... | 'Remaining' is reduced by the Length of the record 'Entry' points to after $@ moved it to the next record, so the remaining length no longer matches the bytes consumed. | test.c:69:5:69:70 | ... = ... | this advance |
+| test.c:87:5:87:33 | ... -= ... | 'Left' is reduced by the Length of the record 'Cursor' points to after $@ moved it to the next record, so the remaining length no longer matches the bytes consumed. | test.c:86:5:86:67 | ... = ... | this advance |
