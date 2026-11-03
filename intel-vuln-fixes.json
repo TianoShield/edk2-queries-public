@@ -1,0 +1,370 @@
+{
+  "schema_version": "1.0",
+  "metadata": {
+    "repository": "edk2-platforms",
+    "head_at_scan": "c1ab40428a3aa1be5d5c98becf4b77add7c6301f",
+    "scan_date": "2026-10-13",
+    "scope_paths": [
+      "Platform/Intel",
+      "Silicon/Intel",
+      "Features/Intel",
+      "Platform/MinPlatformPkg"
+    ],
+    "scope_note": "MinPlatformPkg was moved out of Platform/Intel to Platform/MinPlatformPkg by f37b334aad (2026-04-03), so later MinPlatformPkg commits are only visible under the new path.",
+    "method": "Walked `git log -- <scope_paths>` newest to oldest and read every subject. Read the diff of every commit whose subject or touched files suggested a fix. Confirmed each counted finding against the code at <commit>^ (the vulnerable revision). No build, query, or analysis tool was run.",
+    "inclusion_criteria": "A commit is counted when (a) the pre-fix code has a defect demonstrable from source, and (b) either data from outside the module (SMM communication buffer, NV variable, HOB, ACPI table, PCI enumeration) determines the faulty computation, or the fix restores a security property (secret erasure, variable lock, SMI handler lifetime, SMM isolation, salt randomness). Not counted (see other_reviewed_fixes): plain NULL guards, build/config fixes, functional fixes, and memory-safety bugs whose bad size is a compile-time constant.",
+    "line_numbers": "Unless stated otherwise, every file:line refers to the file at <commit>^, i.e. the vulnerable revision (e.g. `git show <commit>^:<path>`). Locations prefixed 'edk2/' refer to the sibling ../edk2 checkout at 3a8a0a5cfd (current, not contemporaneous with the fix). Locations marked HEAD refer to c1ab40428a.",
+    "cve_note": "None of the 10 commits names a CVE or GHSA. Three cite TianoCore Bugzilla entries (see 'reference')."
+  },
+  "findings": [
+    {
+      "rank": 1,
+      "commit": "ec2f0c7649f6bc78b11cd8c44b3b304ab8babe6b",
+      "date": "2026-07-06",
+      "title": "Silicon/Intel/IntelSiliconPkg: Fix the wrong size of CopyMem",
+      "cve": null,
+      "reference": null,
+      "module": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe",
+      "phase": "DXE",
+      "cwe": ["CWE-125", "CWE-131"],
+      "vulnerability": "Heap out-of-bounds read. When a VT-d unit's PCI device table is full, RegisterPciDevice() allocates a larger table of (Max + 0x100) entries, then copies (Max + 0x100) entries out of the old table, which only holds Max entries. Each grow reads 0x100 * sizeof(PCI_DEVICE_DATA) bytes past the end of the old pool allocation.",
+      "tainted_source": {
+        "description": "PCI functions that respond to config-space enumeration under a DRHD's scope (and DMAR device-scope entries). Every responding function is registered, so the hardware on the bus sets the entry count.",
+        "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/PciInfo.c:236",
+        "code": "VendorID  = PciSegmentRead16 (PCI_SEGMENT_LIB_ADDRESS(Segment, Bus, Device, Function, PCI_VENDOR_ID_OFFSET));"
+      },
+      "flow": [
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/PciInfo.c:248", "code": "Status = Callback (Context, Segment, Bus, Device, Function);", "note": "called for every present function" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/DmarAcpiTable.c:131", "code": "Status = ScanAllPciBus((VOID *)VtdIndex, DmarDrhd->SegmentNumber, ScanBusCallbackRegisterPciDevice);", "note": "INCLUDE_PCI_ALL DRHD; also :172 (device-scope entry) and :187 (bridge secondary bus scan)" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/PciInfo.c:201", "code": "Status = RegisterPciDevice (VtdIndex, Segment, SourceId, DeviceType, FALSE);", "note": "one table entry per function" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/DmarAcpiTable.c:114", "code": "mVtdUnitInformation[VtdIndex].PciDeviceInfo = AllocateZeroPool (sizeof (PCI_DEVICE_INFORMATION) + sizeof (PCI_DEVICE_DATA) * MAX_VTD_PCI_DATA_NUMBER);", "note": "initial capacity 0x100 (DmaProtection.h:64), recorded as PciDeviceDataMaxNumber at :125" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/PciInfo.c:97", "code": "if (PciDeviceInfo->PciDeviceDataNumber >= PciDeviceInfo->PciDeviceDataMaxNumber) {", "note": "grow path entered when the count reaches capacity" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/PciInfo.c:101", "code": "NewPciDeviceInfo = AllocateZeroPool (sizeof (PCI_DEVICE_INFORMATION) + sizeof (PCI_DEVICE_DATA) * (PciDeviceInfo->PciDeviceDataMaxNumber + MAX_VTD_PCI_DATA_NUMBER));", "note": "new buffer sized Max + 0x100" }
+      ],
+      "consumer": {
+        "description": "CopyMem whose length is the new capacity rather than the old buffer's capacity.",
+        "location": "Silicon/Intel/IntelSiliconPkg/Feature/VTd/IntelVTdCoreDxe/PciInfo.c:106",
+        "code": "CopyMem (NewPciDeviceInfo, PciDeviceInfo, sizeof (PCI_DEVICE_INFORMATION) + sizeof (PCI_DEVICE_DATA) * (PciDeviceInfo->PciDeviceDataMaxNumber + MAX_VTD_PCI_DATA_NUMBER));"
+      },
+      "trigger": "More than 256 distinct PCI functions registered to one VT-d unit; every further 256 repeats the grow.",
+      "attacker_control": "Physical. The count comes from what is on the bus, so added PCIe devices or functions under a DRHD's scope raise it. No software-only path found.",
+      "fix": "Copy only PciDeviceDataMaxNumber entries; the constant is renamed VTD_PCI_DATA_ALLOC_CHUNK."
+    },
+    {
+      "rank": 2,
+      "commit": "622a9d76ae182c6ed08df17ecdd2b4a70eaae95c",
+      "date": "2025-10-27",
+      "title": "Features/Intel:Failure to Clear Password Data",
+      "cve": null,
+      "reference": null,
+      "module": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm",
+      "phase": "SMM",
+      "cwe": ["CWE-226"],
+      "vulnerability": "Plaintext passwords left in SMRAM. SmmPasswordHandler copies the plaintext new and old passwords (SET_PASSWORD) or the password (VERIFY_PASSWORD) from the communication buffer into SMRAM stack locals, and returns on every path without clearing them. Same class as edk2 CVE-2024-38798 (uncleared password keystrokes).",
+      "tainted_source": {
+        "description": "Password payload of the SMM communication buffer, written by the non-SMM caller.",
+        "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:500",
+        "code": "CopyMem (&SmmCommunicateSetPassword, SmmFunctionHeader + 1, sizeof(SmmCommunicateSetPassword));"
+      },
+      "flow": [
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:443", "code": "SMM_PASSWORD_COMMUNICATE_SET_PASSWORD     SmmCommunicateSetPassword;", "note": "stack locals in SMRAM; the VERIFY counterpart is declared at :444" },
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:556", "code": "CopyMem (&SmmCommunicateVerifyPassword, SmmFunctionHeader + 1, sizeof(SmmCommunicateVerifyPassword));", "note": "second plaintext copy (VERIFY_PASSWORD)" },
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:509", "code": "if (!IsPasswordVerified (UserGuid, SmmCommunicateSetPassword.OldPassword, PasswordLen + 1)) {", "note": "use of the copied secret; also :526, :531, :540, :564" }
+      ],
+      "consumer": {
+        "description": "Function exit with no ZeroMem of either local; the plaintext stays on the SMRAM stack. This is a missing-sanitizer-at-scope-end bug, not a data sink.",
+        "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:619-627",
+        "code": "EXIT: ... SmmFunctionHeader->ReturnStatus = Status;\n\n  return EFI_SUCCESS;"
+      },
+      "trigger": "Any SET_PASSWORD or VERIFY_PASSWORD SMI.",
+      "attacker_control": "Disclosure only. Anything that can later read SMRAM stack contents (another SMM bug, an SMRAM dump) recovers the plaintext passwords.",
+      "fix": "ZeroMem both locals before returning."
+    },
+    {
+      "rank": 3,
+      "commit": "04ba6e7c656166a15bbd10154da4df77ac7265b4",
+      "date": "2025-10-16",
+      "title": "Features/Intel: Failed to check return status",
+      "cve": null,
+      "reference": null,
+      "module": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm",
+      "phase": "SMM",
+      "cwe": ["CWE-252", "CWE-908", "CWE-760"],
+      "vulnerability": "Fail-open password salt. KeyLibGenerateSalt ignores the results of RandomSeed and RandomBytes and always returns TRUE, and SavePasswordToVariable ignores its result. If the RNG fails, the salt field of an uninitialized stack struct is used as the PBKDF2 salt and stored next to the hash in the password variable.",
+      "tainted_source": {
+        "description": "RNG failure: RandomBytes returns FALSE, and the salt field is otherwise never initialized.",
+        "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/KeyService.c:81-83",
+        "code": "RandomSeed(NULL, 0);\n  RandomBytes(SaltValue, SaltSize);\n  return TRUE;"
+      },
+      "flow": [
+        { "location": "edk2/CryptoPkg/Library/BaseCryptLib/Rand/CryptRand.c:91-92", "code": "if (RAND_bytes (Output, (UINT32)Size) != 1) {\n    return FALSE;", "note": "failure is signalled only by the return value" },
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:222", "code": "USER_PASSWORD_VAR_STRUCT          UserPasswordVarStruct;", "note": "uninitialized stack struct holding PasswordSalt" },
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:229", "code": "KeyLibGenerateSalt (UserPasswordVarStruct.PasswordSalt, sizeof(UserPasswordVarStruct.PasswordSalt));", "note": "return value discarded" }
+      ],
+      "consumer": {
+        "description": "PBKDF2 hash keyed with the salt, then saved with the salt to the NV password variable (SavePasswordHashToVariable at :242).",
+        "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:230",
+        "code": "HashOk = KeyLibGeneratePBKDF2Hash (HASH_TYPE_SHA256, (UINT8 *)Password, PasswordSize, UserPasswordVarStruct.PasswordSalt, sizeof(UserPasswordVarStruct.PasswordSalt), ...);"
+      },
+      "trigger": "RAND_bytes failure in the SMM crypto library while setting a password.",
+      "attacker_control": "None direct. This is a fail-open path that yields a predictable or stale salt. Low severity.",
+      "fix": "Check RandomSeed/RandomBytes and return FALSE on failure; SavePasswordToVariable returns EFI_OUT_OF_RESOURCES if salt generation fails."
+    },
+    {
+      "rank": 4,
+      "commit": "62c5bac402b65ff439f59f5220484759d2ce35aa",
+      "date": "2024-09-27",
+      "title": "IntelSiliconPkg/SmmAccess: Fix potential integer overflow in loop comparison",
+      "cve": null,
+      "reference": null,
+      "module": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess (SmmAccessDxe and PeiSmmAccessLib)",
+      "phase": "DXE / PEI",
+      "cwe": ["CWE-197", "CWE-835"],
+      "vulnerability": "Infinite loop from a narrow loop counter. Close() loops with a UINT8 Index against NumberRegions (UINTN), which is copied from the SMRAM descriptor HOB. With more than 255 regions, Index wraps from 255 to 0 and the loop never ends.",
+      "tainted_source": {
+        "description": "gEfiSmmSmramMemoryGuid HOB: DescriptorBlock->NumberOfSmmReservedRegions.",
+        "location": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess/SmmAccessDxe/SmmAccessDriver.c:58",
+        "code": "Hob = GetFirstGuidHob (&gEfiSmmSmramMemoryGuid);"
+      },
+      "flow": [
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess/SmmAccessDxe/SmmAccessDriver.c:80", "code": "for (Index = 0; Index < DescriptorBlock->NumberOfSmmReservedRegions; Index++) {", "note": "copies every HOB descriptor" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess/SmmAccessDxe/SmmAccessDriver.c:87", "code": "mSmmAccess.NumberRegions              = Index;", "note": "HOB count becomes the loop bound; the PEI lib does the same at PeiSmmAccessLib.c:276/:298/:305" },
+        { "location": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess/SmmAccessDxe/SmmAccessDriver.c:169", "code": "UINT8                   Index;", "note": "8-bit counter; the PEI lib declares the same at PeiSmmAccessLib.c:111" }
+      ],
+      "consumer": {
+        "description": "Loop guard comparing the 8-bit counter with the HOB-derived count.",
+        "location": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess/SmmAccessDxe/SmmAccessDriver.c:188",
+        "code": "for (Index = 0; Index < mSmmAccess.NumberRegions; Index++) {"
+      },
+      "secondary_consumer": "Silicon/Intel/IntelSiliconPkg/Feature/SmmAccess/Library/PeiSmmAccessLib/PeiSmmAccessLib.c:138  for (Index = 0; Index < SmmAccess->NumberRegions; Index++) {",
+      "trigger": "An SMRAM descriptor HOB with NumberOfSmmReservedRegions > 255, followed by an EFI_SMM_ACCESS2 Close().",
+      "attacker_control": "Prior-stage handoff data (HOB built by silicon/FSP init). Realistically trusted; low.",
+      "fix": "Index widened to UINTN in both files."
+    },
+    {
+      "rank": 5,
+      "commit": "3f89df4b1d63ac13088f5d232f218e2e416fafb8",
+      "date": "2024-04-22",
+      "title": "MinPlatformPkg/Test: Fix DumpAcpiMadt infinite loop",
+      "cve": null,
+      "reference": null,
+      "module": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib",
+      "phase": "DXE",
+      "cwe": ["CWE-125", "CWE-835"],
+      "vulnerability": "Wrong length accounting in the MADT walker. The pointer moves to the next record before MadtLen is decremented, so MadtLen -= ApicStructHeader->Length subtracts the next record's Length. MadtLen stops tracking the bytes consumed. On the last record the subtraction reads a Length byte past the end of the table. If that byte (or any next Length) is 0, the pointer stops advancing and the loop spins; otherwise the walk keeps reading Type/Length past the table.",
+      "tainted_source": {
+        "description": "MADT contents (Header.Length and per-record Length) for a table found by walking the XSDT/RSDT (DxeCheckAcpi.c:506 for DumpAcpiMadt, :564 for CheckAcpiMadt).",
+        "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:96",
+        "code": "MadtLen  = Madt->Header.Length - sizeof(EFI_ACPI_6_5_MULTIPLE_APIC_DESCRIPTION_TABLE_HEADER);"
+      },
+      "flow": [
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:76", "code": "INTN                                                  MadtLen;", "note": "signed remaining-length counter" },
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:98", "code": "while (MadtLen > 0) {", "note": "only guard; no check that a record header remains" },
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:99", "code": "switch (ApicStructHeader->Type) {", "note": "read through the possibly out-of-bounds pointer" }
+      ],
+      "consumer": {
+        "description": "Pointer advance followed by a subtraction that dereferences the already-advanced pointer.",
+        "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:238-239",
+        "code": "ApicStructHeader = (APIC_STRUCT_HEADER *)((UINT8 *)ApicStructHeader + ApicStructHeader->Length);\n    MadtLen         -= ApicStructHeader->Length;"
+      },
+      "secondary_consumer": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:327-328 (CheckAcpiMadt, loop at :275)",
+      "trigger": "Any MADT where the byte after the last record (or any record's Length) is 0 hangs; otherwise there are out-of-bounds reads past the end of the table.",
+      "attacker_control": "The MADT is firmware-built; reaching this needs code that can install or modify an ACPI table. Low. Pattern: table-supplied length used in loop arithmetic.",
+      "fix": "Swap the two statements: subtract the current record's Length, then advance.",
+      "residual_at_HEAD": "Platform/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:99/:240-241 and :277/:330-331. A record with Length == 0 still hangs (no zero-length guard), and `while (MadtLen > 0)` still does not require a full 2-byte record header."
+    },
+    {
+      "rank": 6,
+      "commit": "87c40ac89b97eccac690762536db5376af15bb65",
+      "date": "2023-07-05",
+      "title": "MinPlatformPkg: Add Mem Type Info variable validity checks",
+      "cve": null,
+      "reference": null,
+      "module": "Platform/Intel/MinPlatformPkg/PlatformInit/PlatformInitPei",
+      "phase": "PEI",
+      "cwe": ["CWE-20", "CWE-125"],
+      "vulnerability": "Unvalidated NV variable copied into a HOB. BuildMemoryTypeInformation() reads the MemoryTypeInformation variable and copies it unchecked into the gEfiMemoryTypeInformationGuid HOB. Nothing checks that the size is a whole number of entries, that each Type is below EfiMaxMemoryType, or that the array ends with the {EfiMaxMemoryType, 0} terminator. HOB consumers walk the array until that terminator.",
+      "tainted_source": {
+        "description": "NV variable EFI_MEMORY_TYPE_INFORMATION_VARIABLE_NAME / gEfiMemoryTypeInformationGuid, read into a stack array.",
+        "location": "Platform/Intel/MinPlatformPkg/PlatformInit/PlatformInitPei/PlatformInitPreMem.c:181-188",
+        "code": "Status = VariableServices->GetVariable (VariableServices, EFI_MEMORY_TYPE_INFORMATION_VARIABLE_NAME, &gEfiMemoryTypeInformationGuid, NULL, &DataSize, &MemoryData);"
+      },
+      "flow": [
+        { "location": "Platform/Intel/MinPlatformPkg/PlatformInit/PlatformInitPei/PlatformInitPreMem.c:189", "code": "if (EFI_ERROR(Status)) {", "note": "only a failed read falls back to defaults; successful reads are not validated" },
+        { "location": "Platform/Intel/MinPlatformPkg/PlatformInit/PlatformInitPei/PlatformInitPreMem.c:197-201", "code": "BuildGuidDataHob (&gEfiMemoryTypeInformationGuid, MemoryData, DataSize);", "note": "variable bytes become the HOB consumed in DXE" },
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckMemoryTypeInformation.c:123", "code": "PreviousMemoryTypeInformation = GET_GUID_HOB_DATA(GuidHob);", "note": "in-repo HOB consumer (file at 87c40ac89b^)" }
+      ],
+      "consumer": {
+        "description": "Loop bounded only by the terminator entry, with no HOB-size bound. A variable without the terminator makes it read past the HOB. DXE Core consumes the same HOB (outside this repo; the commit message describes the EfiMaxMemoryType-terminated loops).",
+        "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckMemoryTypeInformation.c:49",
+        "code": "for (Index = 0; PreviousMemoryTypeInformation[Index].Type != EfiMaxMemoryType; Index++) {"
+      },
+      "trigger": "A MemoryTypeInformation variable with no terminator, an out-of-range Type, or a size that is not a multiple of 8. Also happens legitimately after a firmware update changes EfiMaxMemoryType.",
+      "attacker_control": "BDS writes the variable as NV|BS (edk2/MdeModulePkg/Library/UefiBootManagerLib/BmMisc.c:269), so the OS cannot set it at runtime. It needs pre-OS code execution or a direct SPI flash write. Low.",
+      "fix": "On a successful read, require DataSize % sizeof(EFI_MEMORY_TYPE_INFORMATION) == 0, every Type < EfiMaxMemoryType, and a last entry of {EfiMaxMemoryType, 0}; otherwise set EFI_COMPROMISED_DATA and use the defaults."
+    },
+    {
+      "rank": 7,
+      "commit": "cbc8e420ac4505e9c51aa0d4f049026691024ca5",
+      "date": "2022-02-17",
+      "title": "MinPlatformPkg/SaveMemoryConfig: Variable may not be locked.",
+      "cve": null,
+      "reference": "https://bugzilla.tianocore.org/show_bug.cgi?id=3829",
+      "module": "Platform/Intel/MinPlatformPkg/FspWrapper/SaveMemoryConfig (+ Library/BaseLargeVariableLib)",
+      "phase": "DXE (variable later consumed in PEI)",
+      "cwe": ["CWE-667", "CWE-284"],
+      "vulnerability": "FspNvsBuffer variable left unlocked. The variable is only locked inside SetLargeVariable(..., LockVariable=TRUE, ...), and SaveMemoryConfig only calls that when the FSP NVS HOB differs from the stored copy. On every boot where the data is unchanged (normally every boot after the first), the variable stays unlocked. Its attributes are NV|BS|RT, so the OS can rewrite it, and on the next boot FSP-M receives it as NvsBufferPtr. The commit message itself calls this a security vulnerability.",
+      "tainted_source": {
+        "description": "Runtime SetVariable on L\"FspNvsBuffer\" (gFspNvsBufferVariableGuid); the variable is created runtime-accessible.",
+        "location": "Platform/Intel/MinPlatformPkg/Library/BaseLargeVariableLib/LargeVariableWriteLib.c:166",
+        "code": "EFI_VARIABLE_NON_VOLATILE | EFI_VARIABLE_BOOTSERVICE_ACCESS | EFI_VARIABLE_RUNTIME_ACCESS,"
+      },
+      "flow": [
+        { "location": "Platform/Intel/MinPlatformPkg/FspWrapper/SaveMemoryConfig/SaveMemoryConfig.c:87-88", "code": "if (!EFI_ERROR (Status) && (BufferSize == DataSize) && (0 == CompareMem (HobData, VariableData, DataSize))) {\n              DataIsIdentical = TRUE;", "note": "common path: data unchanged" },
+        { "location": "Platform/Intel/MinPlatformPkg/FspWrapper/SaveMemoryConfig/SaveMemoryConfig.c:96-97", "code": "if (!DataIsIdentical) {\n        Status = SetLargeVariable (L\"FspNvsBuffer\", &gFspNvsBufferVariableGuid, TRUE, DataSize, HobData);", "note": "the only call that locks is skipped" },
+        { "location": "Platform/Intel/MinPlatformPkg/Library/BaseLargeVariableLib/LargeVariableWriteLib.c:324-325", "code": "if (LockVariable) {\n      Status = VarLibVariableRequestToLock (VariableName, VendorGuid);", "note": "locking exists only inside SetLargeVariable (also :414-420)" }
+      ],
+      "consumer": {
+        "description": "Next boot: PEI reads the variable and passes it to FSP-M as the memory-training NVS buffer. Same pattern in other boards' PeiFspMiscUpdUpdateLib.c / PeiSiliconPolicyUpdateLib.c.",
+        "location": "Platform/Intel/TigerlakeOpenBoardPkg/FspWrapper/Library/PeiFspPolicyInitLib/PeiFspPolicyInitLib.c:109-113",
+        "code": "Status = PeiGetLargeVariable (L\"FspNvsBuffer\", &gFspNvsBufferVariableGuid, &FspNvsBufferPtr, &FspNvsBufferSize);\n  ...\n    UPDATE_POLICY (((FSPM_UPD *) FspmUpd)->FspmArchUpd.NvsBufferPtr, FspmArchConfigPpi->NvsBufferPtr, FspNvsBufferPtr);"
+      },
+      "trigger": "Any boot where the FSP NVS HOB matches the stored variable.",
+      "attacker_control": "OS ring 0 via runtime SetVariable. The impact depends on how the FSP-M binary parses NVS data, which can't be assessed from this repo.",
+      "fix": "New LockLargeVariable() on the identical-data path; if locking fails the variable is deleted, and SetLargeVariable returns EFI_ABORTED on lock failure."
+    },
+    {
+      "rank": 8,
+      "commit": "871ce778eb85825b0594b2ca3bf4c1cc795b43cc",
+      "date": "2021-12-10",
+      "title": "MinPlatformPkg/TestPointCheckLib: Fix DMAR structure length calculation",
+      "cve": null,
+      "reference": "https://bugzilla.tianocore.org/show_bug.cgi?id=3768",
+      "module": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib",
+      "phase": "DXE and PEI",
+      "cwe": ["CWE-125", "CWE-835"],
+      "vulnerability": "Wrong length accounting in four DMAR walkers (same bug as rank 5). DmarLen -= DmarStructHeader->Length runs after the pointer has moved, so it subtracts the next structure's Length. The guard `DmarLen > 0` also doesn't require a full structure header to remain. The walk can run past the DMAR table. In CheckDrhd, bytes read past the table are treated as a DRHD, and their RegisterBaseAddress is passed to MmioRead32/MmioRead64.",
+      "tainted_source": {
+        "description": "DMAR table. DXE gets it from the installed ACPI tables; PEI gets it from the VTd info PPI.",
+        "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/PeiCheckDmaProtection.c:84",
+        "code": "Status = PeiServicesLocatePpi (&gEdkiiVTdInfoPpiGuid, 0, NULL, (VOID **) &Dmar);"
+      },
+      "flow": [
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckDmaProtection.c:76", "code": "Dmar = TestPointGetAcpi (EFI_ACPI_4_0_DMA_REMAPPING_TABLE_SIGNATURE);", "note": "DXE source; DxeCheckAcpi.c:515/:573 reach DumpAcpiDmar/CheckAcpiDmar from the XSDT walk" },
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/PeiCheckDmaProtection.c:37", "code": "DmarLen  = Dmar->Header.Length - sizeof(EFI_ACPI_DMAR_HEADER);", "note": "INTN counter (:29); same at DxeCheckDmaProtection.c:39, DxeCheckAcpiDmar.c:134/:221" },
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/PeiCheckDmaProtection.c:39", "code": "while (DmarLen > 0) {", "note": "same at DxeCheckDmaProtection.c:41, DxeCheckAcpiDmar.c:136/:223" },
+        { "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/PeiCheckDmaProtection.c:64-65", "code": "DmarStructHeader = (EFI_ACPI_DMAR_STRUCTURE_HEADER *)((UINT8 *)DmarStructHeader + DmarStructHeader->Length);\n    DmarLen         -= DmarStructHeader->Length;", "note": "advance-then-subtract; same at DxeCheckDmaProtection.c:59-60, DxeCheckAcpiDmar.c:207-208/:235-236" }
+      ],
+      "consumer": {
+        "description": "MMIO read at an address taken from a DRHD that may lie past the end of the table.",
+        "location": "Platform/Intel/MinPlatformPkg/Test/Library/TestPointCheckLib/PeiCheckDmaProtection.c:44",
+        "code": "Reg32 = MmioRead32 ((UINTN)Drhd->RegisterBaseAddress + R_GSTS_REG);"
+      },
+      "secondary_consumer": "PeiCheckDmaProtection.c:46/:51 (MmioRead64/MmioRead32), DxeCheckDmaProtection.c:46 (MmioRead32), DxeCheckAcpiDmar.c:227 (IsMmioExit on Drhd->RegisterBaseAddress)",
+      "trigger": "A DMAR whose structure lengths make the shifted accounting overrun; a zero next-Length hangs.",
+      "attacker_control": "The DMAR is platform-built (in PEI, prior-stage PPI data). Low. Pattern: table-supplied length used in loop arithmetic, then a field read used as an MMIO address.",
+      "fix": "Subtract before advancing; loop only while DmarLen >= sizeof (*DmarStructHeader).",
+      "residual_at_HEAD": "A structure with Length == 0 still hangs: Platform/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiDmar.c:207-208/:235-236, TestPointCheckDmaProtectionLib/DxeTestPointCheckDmaProtectionLib.c:59-60, PeiTestPointCheckDmaProtectionLib.c:64-65."
+    },
+    {
+      "rank": 9,
+      "commit": "23ca68c23dd600973e961de4368abacf4db8c5c0",
+      "date": "2021-09-28",
+      "title": "UserAuthFeaturePkg/UserAuthenticationDxeSmm: The SMI to handle the user authentication should be unregister before booting to OS",
+      "cve": null,
+      "reference": "https://bugzilla.tianocore.org/show_bug.cgi?id=3648",
+      "module": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm",
+      "phase": "SMM",
+      "cwe": ["CWE-749", "CWE-284"],
+      "vulnerability": "Password-management SMI reachable from the OS. PasswordSmmInit registers SmmPasswordHandler and keeps the handle only in a local; the file never calls SmiHandlerUnRegister. The SMI therefore stays reachable after ExitBootServices. OS code can use SET_PASSWORD to set an admin password when none exists, because IsPasswordVerified returns TRUE when there is no password variable, and SET_VERIFY_POLICY to overwrite mNeedReVerify.",
+      "tainted_source": {
+        "description": "SMM communication buffer supplied by OS ring 0 after ExitBootServices, delivered to SmmPasswordHandler (:427).",
+        "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:661",
+        "code": "Status    = gSmst->SmiHandlerRegister (SmmPasswordHandler, &gUserAuthenticationGuid, &SmmHandle);"
+      },
+      "flow": [
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:504", "code": "if (!IsPasswordVerified (UserGuid, SmmCommunicateSetPassword.OldPassword, PasswordLen + 1)) {", "note": "SET_PASSWORD (:483)" },
+        { "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:280-282", "code": "Status = GetPasswordHashFromVariable (UserGuid, 0, &UserPasswordVarStruct);\n  if (EFI_ERROR(Status)) {\n    return TRUE;", "note": "no stored password means verification passes" }
+      ],
+      "consumer": {
+        "description": "SMM writes an OS-chosen admin password to the NV variable. The SET_VERIFY_POLICY path (:563/:571) assigns mNeedReVerify from the buffer.",
+        "location": "Features/Intel/UserInterface/UserAuthFeaturePkg/UserAuthenticationDxeSmm/UserAuthenticationSmm.c:530",
+        "code": "Status = SavePasswordToVariable (UserGuid, SmmCommunicateSetPassword.NewPassword, PasswordLen + 1);"
+      },
+      "trigger": "An OS-issued SMM communicate with gUserAuthenticationGuid at runtime.",
+      "attacker_control": "OS ring 0. The handler's parsing is also exposed as runtime SMM attack surface.",
+      "fix": "Keep the handle in mSmmHandle and unregister it from gEdkiiSmmExitBootServicesProtocolGuid and gEdkiiSmmLegacyBootProtocolGuid notifications."
+    },
+    {
+      "rank": 10,
+      "commit": "cd4e6b716c7d1bcde94035e7dce14b53a553e103",
+      "date": "2021-08-11",
+      "title": "WhitleyOpenBoardPkg/BoardAcpiLib: Fix GP Fault in ACPI Enable SMI",
+      "cve": null,
+      "reference": null,
+      "module": "Platform/Intel/WhitleyOpenBoardPkg/Library/BoardAcpiLib (linked into MinPlatformPkg AcpiSmm)",
+      "phase": "SMM",
+      "cwe": ["CWE-822", "CWE-829"],
+      "vulnerability": "SMM call-out. The ACPI enable/disable SW SMI handlers call SiliconEnableAcpi/SiliconDisableAcpi. These look up the DXE gDynamicSiLibraryProtocolGuid interface through gBS and call its PmcGetAcpiBase function pointer from SMM. The boot-services table and that protocol live outside SMRAM. The OS triggers this SMI after ExitBootServices, when that memory is no longer firmware-owned (the commit message reports the resulting GP fault). The returned base is then used for SMI_EN / PM1 port I/O.",
+      "tainted_source": {
+        "description": "Boot-services table and DXE protocol interface (code and data outside SMRAM).",
+        "location": "Platform/Intel/WhitleyOpenBoardPkg/Library/BoardAcpiLib/SmmSiliconAcpiEnableLib.c:66",
+        "code": "Status = gBS->LocateProtocol (&gDynamicSiLibraryProtocolGuid, NULL, &DynamicSiLibraryProtocol);"
+      },
+      "flow": [
+        { "location": "Platform/Intel/MinPlatformPkg/Acpi/AcpiTables/AcpiPlatform.c:1293", "code": "FadtHeader->AcpiEnable  = PcdGet8 (PcdAcpiEnableSwSmi);", "note": "the OS triggers the SMI by writing this value to SMI_CMD" },
+        { "location": "Platform/Intel/MinPlatformPkg/Acpi/AcpiSmm/AcpiMm.c:87-92", "code": "SwContext.SwSmiInputValue = (UINTN) PcdGet8 (PcdAcpiEnableSwSmi);\n  Status = SwDispatch->Register (SwDispatch, EnableAcpiCallback, &SwContext, &SwHandle);", "note": "SW SMI handler registration" },
+        { "location": "Platform/Intel/MinPlatformPkg/Acpi/AcpiSmm/AcpiMm.c:37", "code": "BoardEnableAcpi (TRUE);", "note": "EnableAcpiCallback; DisableAcpiCallback calls BoardDisableAcpi at :59" },
+        { "location": "Platform/Intel/WhitleyOpenBoardPkg/Library/BoardAcpiLib/SmmBoardAcpiEnableLib.c:37", "code": "SiliconEnableAcpi (EnableSci);", "note": "bound to AcpiSmm.inf at Platform/Intel/WhitleyOpenBoardPkg/PlatformPkg.dsc:723-726" }
+      ],
+      "consumer": {
+        "description": "Indirect call from SMM through a non-SMRAM function pointer; the returned PchPmBase drives IoRead32/IoWrite32/IoWrite16 at :77/:88/:94/:101.",
+        "location": "Platform/Intel/WhitleyOpenBoardPkg/Library/BoardAcpiLib/SmmSiliconAcpiEnableLib.c:75",
+        "code": "PchPmBase = DynamicSiLibraryProtocol->PmcGetAcpiBase ();"
+      },
+      "secondary_consumer": "SiliconDisableAcpi: SmmSiliconAcpiEnableLib.c:117 (gBS->LocateProtocol) and :126 (PmcGetAcpiBase call)",
+      "trigger": "The OS enables ACPI mode (SMI_CMD <- FADT.AcpiEnable), or the disable SMI.",
+      "attacker_control": "OS ring 0. The commit message only describes the GP fault, not the security impact.",
+      "fix": "Use gSmst->SmmLocateProtocol with the SMRAM-resident gDynamicSiLibrarySmmProtocolGuid."
+    }
+  ],
+  "other_reviewed_fixes": [
+    { "commit": "769396d8912cda9db3554b27ba943254e8119024", "date": "2026-06-19", "title": "MinPlatformPkg/TestPointCheckLib:Add NULL pointer check to prevent page fault.", "reason_not_counted": "NULL guard for zero RSDT/XSDT entries (Platform/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpi.c:621/:678 at parent). Robustness only: a non-NULL bogus entry is still dereferenced after the fix." },
+    { "commit": "ced51bd4cda50b1965807d77400798a22a22d80e", "date": "2026-06-24", "title": "MinPlatformPkg/TestPointLib: Prevent calling FreePool on a NULL pointer", "reason_not_counted": "FreePool of an out-param that an AIP GetSupportedTypes call may leave NULL or unset. Robustness only, no data flow." },
+    { "commit": "7fee5e2153185c8508b2ae000aeb73ddb8cc300d", "date": "2026-07-16", "title": "SimicsOpenBoardPkg/PeiReportFvLib: Guard against unset FV PCDs", "reason_not_counted": "Build-time PCDs left at 0; configuration issue." },
+    { "commit": "102d8c75e8005c25e13edb13ecf17cd98e2b35d0", "date": "2025-11-04", "title": "Features/Intel: Enhanced Password complexity", "reason_not_counted": "New password-policy rules (hardening), not a defect fix. The new `PasswordSize - 3` loops are reached only after `PasswordSize < PASSWORD_MIN_SIZE` returns early, so they do not underflow." },
+    { "commit": "dd3c86b7e3b2e0072d566dc3a4d33b48d28aae7d", "date": "2025-10-23", "title": "Features/Intel: Improper Return Status", "reason_not_counted": "The undersized comm buffer was already rejected before use; only the return code changed (EFI_SUCCESS to EFI_INVALID_PARAMETER)." },
+    { "commit": "ee228ef6504b0cf9eb176bd4b3727f88d324d701", "date": "2025-10-22", "title": "Features/Intel: Use RngLib to get Random number.", "reason_not_counted": "Hardening. RandomSeed(NULL, 0) only mixes a constant (edk2/CryptoPkg/Library/BaseCryptLib/Rand/CryptRand.c:16,52), and edk2's OpenSSL entropy pool already draws from RngLib (edk2/CryptoPkg/Library/OpensslLib/OpensslStub/rand_pool.c:49 GetRandomNumber64)." },
+    { "commit": "30a74592ffb30af3fd43e12f5fcbb6dac77f6bec", "date": "2024-07-31", "title": "IntelSiliconPkg/IntelVTdDmarPei: Prevent invalid dereference", "reason_not_counted": "NULL DMAR pointer when the PPI is absent (configuration), not a data value." },
+    { "commit": "9131d63e08b6845d28778a73c719ae3ef08e42f2", "date": "2023-07-13", "title": "IntelSiliconPkg/Vtd: Resolve parameter transfer errors", "reason_not_counted": "DumpVtdRegs(Num) passed a VT-d index as an MMIO base, causing a wild MMIO read on an error path; no tainted data." },
+    { "commit": "45c2015953ffbe0d374035c9cdd75d29899207f8", "date": "2022-10-05", "title": "IntelSiliconPkg/SpiFvbService: Read FV header length from header", "reason_not_counted": "Real heap over-read: Silicon/Intel/IntelSiliconPkg/Feature/Flash/SpiFvbService/FvbInfo.c:118 allocates sizeof (EFI_FIRMWARE_VOLUME_HEADER) and :123 checksums HeaderLength bytes, which (per :62) includes one extra EFI_FV_BLOCK_MAP_ENTRY. Both sizes are compile-time constants, so there is no tainted source. Useful for non-taint allocation/access-size queries." },
+    { "commit": "7f63ab7da9001a550c8d7e8db4811022301b43b8", "date": "2022-09-09", "title": "MinPlatformPkg/TestPointCheckLib: Fix out of bounds array index access", "reason_not_counted": "Constant index Bar[6] on a Bar[6] array; the read stays inside PCI_TYPE00 (it reads CISPtr) and only feeds a DEBUG print." },
+    { "commit": "ea2a520c8349b988d5a2792bdb6803f210f015c0", "date": "2022-08-05", "title": "MinPlatformPkg/TestPointCheckLib: Prevent modification of HOB data", "reason_not_counted": "Debug dump wrote into HOB data; integrity bug, not attacker-driven." },
+    { "commit": "d611e847a9f4dba8092f5a24e9623ba39ad71dc0", "date": "2021-12-21", "title": "System will occur a CPU exception error when sorting CPU APIC map, because of a pointer point to an wrong space.", "reason_not_counted": "Real stack overwrite: Platform/Intel/MinPlatformPkg/Acpi/AcpiTables/AcpiPlatform.c:172 declares `EFI_CPU_ID_ORDER_MAP *TempVal;` and :234 does `CopyMem (&TempVal, &TempCpuApicIdOrderTable[Index], sizeof (EFI_CPU_ID_ORDER_MAP));`, writing a struct into a pointer-sized local. The size is a compile-time constant; the trigger is the BSP not being processor 0. No tainted size." },
+    { "commit": "15d8aa1828a1f91fde335f4f36f3a0dde148280a", "date": "2021-12-01", "title": "UserAuthFeaturePkg: VerifyPassword() allows one extra password attempt", "reason_not_counted": "The code does not support the 'extra attempt' claim. At 15d8aa1828^, UserAuthenticationSmm.c:536-540 rejects the 4th request with EFI_ACCESS_DENIED before IsPasswordVerified is called. The counter is incremented at :292. Only the forced reset (UserAuthenticationDxe.c:255-259) comes one prompt late; no extra guess is ever verified." },
+    { "commit": "89fb75acabe7fcf4420c5f02c84eabb526753591", "date": "2021-08-05", "title": "MinPlatformPkg/TestPointCheckLib: Make OutTable parameter optional", "reason_not_counted": "NULL out-parameter write from internal API misuse." },
+    { "commit": "4811c37ae347c68d36054d8176f2f5b9e9090298", "date": "2023-03-11", "title": "IpmiFeaturePkg: fix IpmiSendCommand response size in GetDeviceId function", "reason_not_counted": "Stale, smaller DataSize made a BMC command fail; no overflow. Related IPMI fixes cd48b14632 and 95b58f71d9 correct response-byte offsets (functional)." }
+  ],
+  "possible_unfixed_issues_at_HEAD": [
+    {
+      "location": "Platform/MinPlatformPkg/PlatformInit/PlatformInitPei/PlatformInitPreMem.c:236 (GetPlatformMemorySize)",
+      "observation": "Reads the same MemoryTypeInformation variable (:267-273) with none of the 87c40ac89b checks. It loops a fixed IndexNumber (:275, size of the default table) regardless of the returned DataSize. At :298 it computes `*MemorySize += MemoryData[Index].NumberOfPages * EFI_PAGE_SIZE;`, where NumberOfPages is UINT32 (edk2/MdeModulePkg/Include/Guid/MemoryTypeInformation.h:30) and EFI_PAGE_SIZE is the int literal 0x00001000 (edk2/MdePkg/Include/Base.h:413), so the product is evaluated in 32 bits before widening to UINT64.",
+      "status": "Observed by reading HEAD only; not confirmed by any fix commit. Same source and attacker-control limits as finding rank 6."
+    },
+    {
+      "location": "Platform/MinPlatformPkg/Test/Library/TestPointCheckLib/DxeCheckAcpiMadt.c:240-241/:330-331; DxeCheckAcpiDmar.c:207-208/:235-236; TestPointCheckDmaProtectionLib/{Dxe,Pei}TestPointCheckDmaProtectionLib.c",
+      "observation": "After the rank 5 and rank 8 fixes, a record with Length == 0 still leaves the remaining length and the pointer unchanged, so the loop never ends. The MADT loop also still lacks a remaining >= header-size guard.",
+      "status": "Observed by reading HEAD only."
+    }
+  ],
+  "scan_progress": {
+    "newest_commit_scanned": "04da1a0b341543e773485893bc5cef3443a86a76",
+    "newest_commit_scanned_date": "2026-07-28",
+    "oldest_commit_scanned": "5b257da6dc74d393866d3c1e3d8293423ce54ab4",
+    "oldest_commit_scanned_date": "2021-08-05",
+    "commits_scanned": "637 commits under Platform/Intel, Silicon/Intel, Features/Intel (positions 1-637 of `git log -- <those paths>`), plus all 9 commits under Platform/MinPlatformPkg since the 2026-04-03 relocation.",
+    "next_commit_to_scan": "d6794cce9f8f7076288a9d0b1fde7c3497e77992",
+    "resume_command": "git log --format='%h %ad %s' --date=short 5b257da6dc74d393866d3c1e3d8293423ce54ab4^ -- Platform/Intel Silicon/Intel Features/Intel",
+    "partial_lookahead": "The subjects of positions 638-760 (down to 32cdbf3c48b19226846c9d90a10ca275369f25b3, 2021-02-11) were read but their diffs were not reviewed. Older keyword hits worth checking first: b9f61c0789c8221d7cb3653f5891f9a336602948 (MinPlatformPkg: Add missing bounds checks to CompressLib, 2020-09-29), 4515854365cc678dc5e804f634c3077c6a116fea (ShadowMicrocodePei: microcode header verification, 2021-02-03), 238fa7124ab6f01cd8d88911a48490e90874c839 (IntelPciDeviceSecurityDxe: Replace ASSERT_EFI_ERROR, 2020-03-18), 67957909babe64ec70a44af360148809f2a6c707 (FitGen: check input file path, 2020-02-19), f6563a0fe90d40d2963837d961b4fd8f99bb0dd5 (MultiBoardInitSupportLib: NULL dereferences, 2019-08-23)."
+  }
+}

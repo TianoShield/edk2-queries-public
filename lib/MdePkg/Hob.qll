@@ -43,3 +43,28 @@ class Edk2CreateHobParameterSource extends RemoteFlowSource {
 
   override string getSourceType() { result = "parameter of CreateHob" }
 }
+
+/**
+ * Holds if `arg` supplies the bytes that `call` copies into a new GUID HOB:
+ *
+ *     VOID *BuildGuidDataHob (IN CONST EFI_GUID *Guid, IN VOID *Data, IN UINTN DataLength);
+ *
+ * or, in the two-step form, the `Data` of `CopyMem (Hob, Data, Size)` where
+ * `Hob` is the buffer returned by `BuildGuidHob (&Guid, Size)`. HobLib's own
+ * `BuildGuidDataHob` is that two-step form internally; it is excluded so a
+ * value passed to it is reported once, at the caller.
+ *
+ * HOBs carry data from PEI into DXE (and into SMM), where consumers treat
+ * their contents as trusted platform configuration.
+ */
+predicate isGuidHobDataArgument(FunctionCall call, Expr arg) {
+  call.getTarget().hasGlobalName("BuildGuidDataHob") and arg = call.getArgument(1)
+  or
+  call.getTarget().hasGlobalName("CopyMem") and
+  arg = call.getArgument(1) and
+  not call.getEnclosingFunction().hasGlobalName("BuildGuidDataHob") and
+  exists(FunctionCall build |
+    build.getTarget().hasGlobalName("BuildGuidHob") and
+    DataFlow::localExprFlow(build, call.getArgument(0).getUnconverted())
+  )
+}

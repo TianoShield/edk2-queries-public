@@ -58,8 +58,40 @@ advisory title`; shared advisories also include CVE-specific details.
 - `unsafe-u32-field-addition-without-overflow-check.ql` detects range and end
   calculations that add unsigned 32-bit structure fields without a nearby
   overflow guard (CWE-190).
+- `RecordWalkerLengthAfterAdvance.ql` detects variable-length record walkers
+  that advance the cursor before subtracting the record length, so the
+  remaining length is reduced by the next record's length (CWE-125/835).
+- `NarrowLoopCounter.ql` detects 8- and 16-bit loop counters compared with a
+  wider bound that can exceed their range (CWE-197/835).
+- `UncheckedRandomNumberResult.ql` detects RNG calls, and wrappers that fill a
+  caller buffer with RNG output, whose success result is never tested outside
+  an assertion (CWE-252/330).
+- `UnvalidatedDataPublishedToHob.ql` detects untrusted data, such as UEFI
+  variable contents, copied into a GUID HOB with no check of its contents
+  (CWE-20/125).
+- `SmiHandlerWritesVariableNeverUnregistered.ql` detects SMI handlers that can
+  write UEFI variables and are never unregistered, so they stay callable from
+  the OS (CWE-749/284).
+- `UnclearedStackSecret.ql` detects stack buffers passed to a password or key
+  consumer that are not cleared on every path before the function returns
+  (CWE-226).
 
 The repository includes synthetic BAD/GOOD test cases under `test/`.
+
+## edk2-platforms coverage
+
+Fixed Intel platform vulnerabilities in edk2-platforms (no CVE assigned). Each
+query alerts on the vulnerable revision and is silent on the fixed one.
+
+| Fix commit | Query | Vulnerability |
+|---|---|---|
+| 622a9d76ae | `UnclearedStackSecret.ql` | UserAuthFeaturePkg: plaintext passwords left on the SMRAM stack by `SmmPasswordHandler` |
+| 04ba6e7c65 | `UncheckedRandomNumberResult.ql` | UserAuthFeaturePkg: `RandomBytes` failure ignored when generating the password salt |
+| 62c5bac402 | `NarrowLoopCounter.ql` | IntelSiliconPkg: `UINT8` SmmAccess loop counter against the HOB-derived region count |
+| 3f89df4b1d | `RecordWalkerLengthAfterAdvance.ql` | MinPlatformPkg: MADT walker subtracts the next record's length |
+| 87c40ac89b | `UnvalidatedDataPublishedToHob.ql` | MinPlatformPkg: MemoryTypeInformation variable copied into a HOB unvalidated |
+| 871ce778eb | `RecordWalkerLengthAfterAdvance.ql` | MinPlatformPkg: DMAR walkers subtract the next structure's length |
+| 23ca68c23d | `SmiHandlerWritesVariableNeverUnregistered.ql` | UserAuthFeaturePkg: password SMI handler reachable after ExitBootServices |
 
 ## CVEs without reusable queries
 

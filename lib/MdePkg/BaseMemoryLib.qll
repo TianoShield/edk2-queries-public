@@ -62,3 +62,15 @@ predicate isBaseMemoryLibLengthParameter(Parameter p) {
     baseMemoryLibBufferParameter(f, _, lengthParam) and p = f.getParameter(lengthParam)
   )
 }
+
+/**
+ * Holds if `call` overwrites the buffer passed as `buffer` with zeros:
+ * `ZeroMem (Buffer, Length)`, or `SetMem/SetMem16/32/64/N (Buffer, Length, 0)`.
+ */
+predicate isZeroingCall(FunctionCall call, Expr buffer) {
+  call.getTarget().hasGlobalName("ZeroMem") and buffer = call.getArgument(0)
+  or
+  call.getTarget().hasGlobalName(["SetMem", "SetMem16", "SetMem32", "SetMem64", "SetMemN"]) and
+  call.getArgument(2).getValue().toInt() = 0 and
+  buffer = call.getArgument(0)
+}

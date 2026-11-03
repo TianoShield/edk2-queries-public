@@ -1,0 +1,19 @@
+edges
+| test.c:131:34:131:44 | output argument | test.c:138:53:138:62 | *MemoryData | provenance |  |
+| test.c:145:11:145:16 | *Buffer | test.c:162:38:162:43 | ReadPlatformConfig output argument | provenance |  |
+| test.c:145:11:145:16 | *Buffer [Return] | test.c:162:38:162:43 | ReadPlatformConfig output argument | provenance |  |
+| test.c:149:83:149:88 | output argument | test.c:145:11:145:16 | *Buffer | provenance |  |
+| test.c:149:83:149:88 | output argument | test.c:145:11:145:16 | *Buffer [Return] | provenance |  |
+| test.c:162:38:162:43 | ReadPlatformConfig output argument | test.c:171:17:171:22 | *Config | provenance |  |
+nodes
+| test.c:131:34:131:44 | output argument | semmle.label | output argument |
+| test.c:138:53:138:62 | *MemoryData | semmle.label | *MemoryData |
+| test.c:145:11:145:16 | *Buffer | semmle.label | *Buffer |
+| test.c:145:11:145:16 | *Buffer [Return] | semmle.label | *Buffer [Return] |
+| test.c:149:83:149:88 | output argument | semmle.label | output argument |
+| test.c:162:38:162:43 | ReadPlatformConfig output argument | semmle.label | ReadPlatformConfig output argument |
+| test.c:171:17:171:22 | *Config | semmle.label | *Config |
+subpaths
+#select
+| test.c:138:3:138:18 | call to BuildGuidDataHob | test.c:131:34:131:44 | output argument | test.c:138:53:138:62 | *MemoryData | Data from $@ is published in a GUID HOB by BuildGuidDataHob without any check of its contents. | test.c:131:34:131:44 | output argument | UEFI variable contents |
+| test.c:171:3:171:9 | call to CopyMem | test.c:149:83:149:88 | output argument | test.c:171:17:171:22 | *Config | Data from $@ is published in a GUID HOB by CopyMem without any check of its contents. | test.c:149:83:149:88 | output argument | UEFI variable contents |
